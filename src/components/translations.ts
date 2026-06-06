@@ -1,6 +1,21 @@
 export type Lang = "ar" | "en";
 
-export const translations = {
+type Dict = {
+  nav: { services: string; about: string; why: string; faq: string; contact: string; cta: string };
+  hero: { eyebrow: string; titleStart: string; titleHighlight: string; titleEnd: string; desc: string; ctaWhatsapp: string; ctaServices: string; badgeNumber: string; badgeLabel: string; portraitAlt: string };
+  stats: { title: string; items: ReadonlyArray<{ value: number; suffix: string; label: string }> };
+  services: { title: string; desc: string; items: ReadonlyArray<{ title: string; desc: string }> };
+  why: { title: string; desc: string; items: ReadonlyArray<{ title: string; desc: string }> };
+  testimonials: { title: string; items: ReadonlyArray<{ quote: string; name: string; role: string }> };
+  faq: { title: string; desc: string; items: ReadonlyArray<{ q: string; a: string }> };
+  cta: { title: string; desc: string; button: string; note: string };
+  footer: { rights: string; privacy: string; terms: string; contact: string };
+  fab: string;
+  menuOpen: string;
+  menuClose: string;
+};
+
+export const translations: Record<Lang, Dict> = {
   ar: {
     nav: {
       services: "الخدمات",
