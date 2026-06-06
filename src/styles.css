@@ -4,6 +4,16 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face { font-family: "PingARLT"; font-weight: 100; font-style: normal; font-display: swap; src: url("/__l5e/assets-v1/1e350b2d-ed9c-4a65-8ad2-d4f9d5e18717/PingAR-Hairline.otf") format("opentype"); }
+@font-face { font-family: "PingARLT"; font-weight: 200; font-style: normal; font-display: swap; src: url("/__l5e/assets-v1/36d5a3eb-e197-4561-a2f3-04e1c8d55839/PingAR-Thin.otf") format("opentype"); }
+@font-face { font-family: "PingARLT"; font-weight: 250; font-style: normal; font-display: swap; src: url("/__l5e/assets-v1/485bea56-925f-4b6c-a155-0b94be7e3375/PingAR-ExtraLight.otf") format("opentype"); }
+@font-face { font-family: "PingARLT"; font-weight: 300; font-style: normal; font-display: swap; src: url("/__l5e/assets-v1/e8ce3a6a-7744-42b7-b2d1-2a5b5d82e1e3/PingAR-Light.otf") format("opentype"); }
+@font-face { font-family: "PingARLT"; font-weight: 400; font-style: normal; font-display: swap; src: url("/__l5e/assets-v1/c340d3b3-d2d5-420e-b142-ef4a8731b843/PingAR-Regular.otf") format("opentype"); }
+@font-face { font-family: "PingARLT"; font-weight: 500; font-style: normal; font-display: swap; src: url("/__l5e/assets-v1/0a022260-60ab-4a5e-b4b2-cae0db140cc2/PingAR-Medium.otf") format("opentype"); }
+@font-face { font-family: "PingARLT"; font-weight: 700; font-style: normal; font-display: swap; src: url("/__l5e/assets-v1/30997235-ab8f-4f6a-8846-5bbc1877ac2f/PingAR-Bold.otf") format("opentype"); }
+@font-face { font-family: "PingARLT"; font-weight: 800; font-style: normal; font-display: swap; src: url("/__l5e/assets-v1/10b57936-f5ec-498d-b004-7012d8a83985/PingAR-Heavy.otf") format("opentype"); }
+@font-face { font-family: "PingARLT"; font-weight: 900; font-style: normal; font-display: swap; src: url("/__l5e/assets-v1/0a3e246a-fc5c-49a5-9cf1-368a4f6c8e16/PingAR-Black.otf") format("opentype"); }
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -39,9 +49,9 @@
   --color-emerald-deep: var(--emerald-deep);
   --color-amber-warm: var(--amber-warm);
 
-  --font-arabic: "Tajawal", "IBM Plex Sans Arabic", system-ui, sans-serif;
-  --font-display: "Fraunces", "Cormorant Garamond", Georgia, serif;
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-arabic: "PingARLT", "Tajawal", system-ui, sans-serif;
+  --font-display: "PingARLT", "Fraunces", Georgia, serif;
+  --font-sans: "PingARLT", "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
@@ -98,7 +108,7 @@
     overflow-x: hidden;
   }
   html[dir="ltr"] body {
-    font-family: var(--font-sans);
+    font-family: "PingARLT", var(--font-sans);
   }
   ::selection {
     background: var(--ember);
