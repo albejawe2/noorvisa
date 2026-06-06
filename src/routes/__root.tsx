@@ -7,7 +7,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { name: "theme-color", content: "#0a0a1a" },
+      { name: "theme-color", content: "#faf6f0" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -15,16 +15,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap",
       },
     ],
   }),
   component: RootComponent,
   notFoundComponent: () => (
-    <div className="min-h-screen flex items-center justify-center bg-night text-pearl">
+    <div className="min-h-screen flex items-center justify-center bg-ivory text-ink">
       <div className="text-center">
-        <h1 className="text-6xl font-display font-bold mb-3 text-electric">404</h1>
-        <a href="/" className="text-violet-glow underline">العودة للصفحة الرئيسية</a>
+        <h1 className="text-6xl font-bold mb-3">404</h1>
+        <a href="/" className="text-ember underline">العودة للصفحة الرئيسية</a>
       </div>
     </div>
   ),

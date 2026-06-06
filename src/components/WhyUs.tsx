@@ -2,55 +2,52 @@
 import { motion } from "framer-motion";
 import { Award, Globe, Clock, Shield } from "lucide-react";
 import { useLang } from "./LanguageProvider";
-import { TiltCard } from "./TiltCard";
 
 const ICONS = [Award, Globe, Clock, Shield];
-const ease = [0.22, 1, 0.36, 1] as const;
 
 export function WhyUs() {
   const { t } = useLang();
   return (
-    <section id="why" className="relative py-24 sm:py-32 px-4 sm:px-6 overflow-hidden">
-      <div className="absolute inset-0 bg-aurora opacity-50 pointer-events-none" />
-
-      <div className="relative z-10 max-w-7xl mx-auto">
+    <section id="why" className="relative py-20 sm:py-32 px-5 sm:px-8 bg-ivory overflow-hidden">
+      <div className="absolute -right-40 top-1/3 size-96 rounded-full bg-ember/10 blur-3xl pointer-events-none" />
+      <div className="max-w-6xl mx-auto relative">
         <motion.div
-          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.7 }}
-          className="max-w-2xl mb-12 sm:mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7 }}
+          className="max-w-2xl mb-12 sm:mb-16 text-center md:text-start mx-auto md:mx-0"
         >
-          <span className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.25em] text-violet-glow mb-4">
-            <span className="size-1.5 rounded-full bg-violet-glow" />
-            {t.why.kicker}
+          <span className="inline-block text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-ember mb-3">
+            — {t.why.kicker}
           </span>
-          <h2 className="text-4xl sm:text-6xl md:text-7xl font-display font-bold text-balance leading-[1]">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-bold text-balance leading-tight">
             {t.why.title}
           </h2>
-          <p className="mt-5 text-base sm:text-lg text-mist text-pretty">{t.why.desc}</p>
+          <p className="mt-4 text-base sm:text-lg text-muted-foreground text-pretty">{t.why.desc}</p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
           {t.why.items.map((it, i) => {
             const Icon = ICONS[i];
             return (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.7, delay: i * 0.08, ease }}
+                transition={{ duration: 0.7, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className="group bg-white rounded-3xl p-6 sm:p-8 border border-ink/5 hover:border-ember/30 hover:shadow-[var(--shadow-card)] transition-all flex gap-5"
               >
-                <TiltCard intensity={6} className="h-full glass-strong rounded-[1.75rem] p-6 sm:p-7 grad-border relative overflow-hidden">
-                  <div className="relative flex flex-col h-full gap-5">
-                    <div className="size-14 rounded-2xl bg-electric grid place-items-center text-white shadow-[var(--shadow-glow)]">
-                      <Icon className="size-6" strokeWidth={1.8} />
-                    </div>
-                    <div>
-                      <div className="text-[10px] font-mono text-violet-glow mb-1">0{i + 1}</div>
-                      <h3 className="font-display font-bold text-xl sm:text-2xl mb-1.5">{it.title}</h3>
-                      <p className="text-sm text-mist leading-relaxed">{it.desc}</p>
-                    </div>
+                <div className="shrink-0">
+                  <div className="size-14 rounded-2xl bg-sunset flex items-center justify-center text-white shadow-[var(--shadow-soft)]">
+                    <Icon className="size-6" strokeWidth={1.8} />
                   </div>
-                </TiltCard>
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-xl sm:text-2xl mb-1.5">{it.title}</h3>
+                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{it.desc}</p>
+                </div>
               </motion.div>
             );
           })}
