@@ -28,7 +28,7 @@ export function Stats() {
               className="group relative bg-white rounded-3xl p-5 sm:p-8 border border-ink/5 hover:border-ember/40 hover:-translate-y-1 transition-all shadow-sm hover:shadow-[var(--shadow-card)]"
             >
               <div className="text-4xl sm:text-6xl font-display font-bold text-sunset leading-none">
-                <Counter end={s.value} />
+                <Counter value={s.value} />
                 <span>{s.suffix}</span>
               </div>
               <div className="mt-3 sm:mt-4 text-xs sm:text-sm font-semibold text-muted-foreground uppercase tracking-wider">
