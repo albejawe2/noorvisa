@@ -2,8 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
-import { Marquee } from "@/components/Marquee";
-import { Stats } from "@/components/Stats";
 import { Services } from "@/components/Services";
 import { WhyUs } from "@/components/WhyUs";
 import { Testimonials } from "@/components/Testimonials";
@@ -11,6 +9,7 @@ import { FAQ } from "@/components/FAQ";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
+import { CursorGlow } from "@/components/CursorGlow";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -54,12 +53,11 @@ export const Route = createFileRoute("/")({
 function NoorVisaPage() {
   return (
     <LanguageProvider>
-      <div className="bg-ivory text-ink min-h-screen relative">
+      <div className="bg-night text-pearl min-h-screen relative overflow-hidden">
+        <CursorGlow />
         <Nav />
         <main>
           <Hero />
-          <Marquee />
-          <Stats />
           <Services />
           <WhyUs />
           <Testimonials />
