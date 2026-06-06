@@ -12,14 +12,12 @@ export function WhatsAppFab() {
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 1.5, type: "spring", stiffness: 200, damping: 18 }}
-      href={WHATSAPP}
-      target="_blank"
-      rel="noopener"
+      href={WHATSAPP} target="_blank" rel="noopener"
       aria-label={t.fab}
       className="fixed bottom-5 ltr:right-5 rtl:left-5 z-40 group"
     >
-      <span className="absolute inset-0 rounded-full bg-ember pulse-ring" />
-      <span className="relative flex items-center gap-2 bg-ink text-ivory rounded-full pl-4 pr-5 py-3.5 sm:py-4 shadow-[var(--shadow-card)] hover:bg-sunset hover:text-white transition-colors">
+      <span className="absolute inset-0 rounded-full bg-violet-glow pulse-ring" />
+      <span className="relative flex items-center gap-2 bg-electric text-white rounded-full pl-4 pr-5 py-3.5 sm:py-4 shadow-[var(--shadow-violet)] hover:scale-105 active:scale-95 transition-transform">
         <MessageCircle className="size-5 sm:size-6" />
         <span className="hidden sm:inline text-sm font-bold">{t.fab}</span>
       </span>
