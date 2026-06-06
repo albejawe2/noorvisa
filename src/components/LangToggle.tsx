@@ -1,14 +1,17 @@
+"use client";
+import { Globe } from "lucide-react";
 import { useLang } from "./LanguageProvider";
 
-export function LangToggle({ className = "" }: { className?: string }) {
-  const { lang, toggle } = useLang();
+export function LangToggle() {
+  const { lang, setLang } = useLang();
   return (
     <button
-      onClick={toggle}
-      aria-label="Toggle language"
-      className={`px-3 py-1.5 border border-white/15 rounded text-[11px] font-mono uppercase tracking-widest text-stone-200 hover:border-gold hover:text-gold transition-colors ${className}`}
+      onClick={() => setLang(lang === "ar" ? "en" : "ar")}
+      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-ink/10 hover:border-ember hover:text-ember text-xs font-bold transition-colors"
+      aria-label="Switch language"
     >
-      {lang === "ar" ? "EN" : "ع"}
+      <Globe className="size-3.5" />
+      {lang === "ar" ? "EN" : "AR"}
     </button>
   );
 }

@@ -1,37 +1,62 @@
-import { Plane, GraduationCap, HeartPulse, Briefcase, Globe2, FileCheck2, ClipboardList, CalendarCheck } from "lucide-react";
+"use client";
+import { motion } from "framer-motion";
 import { useLang } from "./LanguageProvider";
-import { Reveal } from "./Reveal";
+import { Plane, GraduationCap, HeartPulse, Briefcase, Globe2, FileCheck, Bell, CalendarCheck } from "lucide-react";
 
-const ICONS = [Plane, GraduationCap, HeartPulse, Briefcase, Globe2, FileCheck2, ClipboardList, CalendarCheck];
+const ICONS = [Plane, GraduationCap, HeartPulse, Briefcase, Globe2, FileCheck, Bell, CalendarCheck];
 
 export function Services() {
   const { t } = useLang();
   return (
-    <section id="services" className="py-20 sm:py-28 md:py-32 px-5 sm:px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="md:flex justify-between items-end mb-12 sm:mb-16 gap-12">
-          <Reveal className="max-w-2xl">
-            <span className="font-mono text-gold text-[10px] sm:text-xs tracking-[0.2em] uppercase mb-3 block">— {t.nav.services}</span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-balance">{t.services.title}</h2>
-            <p className="text-stone-500 text-base sm:text-lg text-pretty">{t.services.desc}</p>
-          </Reveal>
-          <div className="hidden md:block h-px bg-gradient-to-l from-gold/40 to-transparent flex-grow mt-8" />
-        </div>
+    <section id="services" className="relative py-20 sm:py-32 px-5 sm:px-8 bg-cream">
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7 }}
+          className="text-center max-w-2xl mx-auto mb-12 sm:mb-16"
+        >
+          <span className="inline-block text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-ember mb-3">
+            — {t.services.kicker}
+          </span>
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-bold text-balance leading-tight">
+            {t.services.title}
+          </h2>
+          <p className="mt-4 sm:mt-5 text-base sm:text-lg text-muted-foreground text-pretty">
+            {t.services.desc}
+          </p>
+        </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 border border-white/5 rounded-sm overflow-hidden">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {t.services.items.map((s, i) => {
-            const Icon = ICONS[i];
+            const Icon = ICONS[i % ICONS.length];
+            const highlight = i === 0 || i === 4;
             return (
-              <Reveal key={s.title} delay={i * 70} className="contents">
-                <div className="bg-onyx p-7 sm:p-8 hover:bg-charcoal transition-colors group relative">
-                  <div className="size-12 border border-gold/30 rounded-full flex items-center justify-center mb-5 sm:mb-6 text-gold group-hover:bg-gold group-hover:text-onyx group-hover:rotate-[360deg] transition-all duration-500">
-                    <Icon className="size-5" />
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 group-hover:text-gold transition-colors">{s.title}</h3>
-                  <p className="text-sm text-stone-500 leading-relaxed">{s.desc}</p>
-                  <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: (i % 4) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className={`group relative rounded-3xl p-5 sm:p-6 border transition-all ${
+                  highlight
+                    ? "bg-ink text-ivory border-ink hover:bg-sunset hover:border-transparent"
+                    : "bg-white border-ink/8 hover:border-ember/40 hover:-translate-y-1 shadow-sm"
+                }`}
+              >
+                <div
+                  className={`size-11 sm:size-12 rounded-2xl flex items-center justify-center mb-4 transition-colors ${
+                    highlight ? "bg-ivory/15 text-ivory" : "bg-ember/10 text-ember group-hover:bg-ember group-hover:text-white"
+                  }`}
+                >
+                  <Icon className="size-5 sm:size-6" strokeWidth={1.8} />
                 </div>
-              </Reveal>
+                <h3 className="font-display font-bold text-lg sm:text-xl mb-1.5">{s.title}</h3>
+                <p className={`text-sm leading-relaxed ${highlight ? "text-ivory/70" : "text-muted-foreground"}`}>
+                  {s.desc}
+                </p>
+              </motion.div>
             );
           })}
         </div>

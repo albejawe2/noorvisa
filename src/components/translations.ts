@@ -2,14 +2,19 @@ export type Lang = "ar" | "en";
 
 type Dict = {
   nav: { services: string; about: string; why: string; faq: string; contact: string; cta: string };
-  hero: { eyebrow: string; titleStart: string; titleHighlight: string; titleEnd: string; desc: string; ctaWhatsapp: string; ctaServices: string; badgeNumber: string; badgeLabel: string; portraitAlt: string };
+  hero: {
+    eyebrow: string; titleStart: string; titleHighlight: string; titleEnd: string;
+    desc: string; ctaWhatsapp: string; ctaServices: string;
+    badgeNumber: string; badgeLabel: string; portraitAlt: string;
+    floatA: { label: string; value: string }; floatB: string; trust: string;
+  };
   stats: { title: string; items: ReadonlyArray<{ value: number; suffix: string; label: string }> };
-  services: { title: string; desc: string; items: ReadonlyArray<{ title: string; desc: string }> };
-  why: { title: string; desc: string; items: ReadonlyArray<{ title: string; desc: string }> };
+  services: { kicker: string; title: string; desc: string; items: ReadonlyArray<{ title: string; desc: string }> };
+  why: { kicker: string; title: string; desc: string; items: ReadonlyArray<{ title: string; desc: string }> };
   testimonials: { title: string; items: ReadonlyArray<{ quote: string; name: string; role: string }> };
   faq: { title: string; desc: string; items: ReadonlyArray<{ q: string; a: string }> };
   cta: { title: string; desc: string; button: string; note: string };
-  footer: { rights: string; privacy: string; terms: string; contact: string };
+  footer: { rights: string; privacy: string; terms: string; contact: string; tagline: string };
   fab: string;
   menuOpen: string;
   menuClose: string;
@@ -17,179 +22,155 @@ type Dict = {
 
 export const translations: Record<Lang, Dict> = {
   ar: {
-    nav: {
-      services: "الخدمات",
-      about: "عن المؤسسة",
-      why: "لماذا نحن",
-      faq: "الأسئلة الشائعة",
-      contact: "تواصل",
-      cta: "استشارة مجانية",
-    },
+    nav: { services: "الخدمات", about: "عن المؤسسة", why: "لماذا نحن", faq: "الأسئلة", contact: "تواصل", cta: "استشارة مجانية" },
     hero: {
-      eyebrow: "تأسست 2014 — خدمات تأشيرات راقية",
-      titleStart: "نوّر فيزا — خدمات تأشيرات",
-      titleHighlight: "احترافية",
-      titleEnd: "بخبرة عالمية",
-      desc: "أكثر من 10 سنوات من الخبرة في خدمات التأشيرات والاستشارات الدولية، مع أكثر من 600 عميل من مختلف أنحاء العالم.",
-      ctaWhatsapp: "تواصل عبر واتساب",
-      ctaServices: "خدماتنا",
+      eyebrow: "تأسست 2014 — موثوقة عالمياً",
+      titleStart: "بوابتك إلى",
+      titleHighlight: "العالم",
+      titleEnd: "بثقة",
+      desc: "نور فيزا — عشر سنوات من الخبرة في تأشيرات السفر والاستشارات الدولية، ساعدنا أكثر من 600 عميل على تحقيق أحلامهم حول العالم.",
+      ctaWhatsapp: "ابدأ الآن عبر واتساب",
+      ctaServices: "اكتشف الخدمات",
       badgeNumber: "+600",
       badgeLabel: "عميل ناجح",
       portraitAlt: "نور فيزا — مستشارة التأشيرات المعتمدة",
+      floatA: { label: "نسبة القبول", value: "98%" },
+      floatB: "عميل سعيد",
+      trust: "تقييم عملائنا الموثقين",
     },
     stats: {
       title: "أرقام تتحدث عن الثقة",
       items: [
         { value: 10, suffix: "+", label: "سنوات خبرة" },
         { value: 600, suffix: "+", label: "عميل سعيد" },
-        { value: 50, suffix: "+", label: "دولة حول العالم" },
-        { value: 24, suffix: "/7", label: "سرعة استجابة" },
+        { value: 50, suffix: "+", label: "دولة" },
+        { value: 98, suffix: "%", label: "نسبة قبول" },
       ],
     },
     services: {
-      title: "حلول التأشيرات المتكاملة",
-      desc: "نقدم خدمات متخصصة لكل نوع من أنواع السفر والطلب الدولي بأعلى معايير الاحترافية.",
+      kicker: "خدماتنا",
+      title: "كل تأشيرة تستحق، نجعلها ممكنة",
+      desc: "حلول متكاملة لكل نوع من السفر والطلب الدولي بأعلى معايير الاحترافية.",
       items: [
-        { title: "تأشيرات سياحية", desc: "تسهيل كافة إجراءات السياحة والسفر لأكثر من 150 وجهة حول العالم." },
-        { title: "تأشيرات دراسية", desc: "دعم كامل للطلاب في تأمين القبول الجامعي وتأشيرات الدراسة الدولية." },
-        { title: "تأشيرات علاجية", desc: "تنسيق المواعيد الطبية وتأشيرات العلاج في أفضل المراكز العالمية." },
-        { title: "تأشيرات عمل", desc: "حلول مخصصة للشركات والمهنيين الراغبين في العمل دولياً." },
-        { title: "استشارات الهجرة", desc: "تحليل شامل لفرص الهجرة القانونية والمسارات المتاحة لكل حالة." },
-        { title: "تجهيز الملفات", desc: "إعداد احترافي لملفات السفارات لضمان أعلى نسب القبول." },
-        { title: "متابعة الطلبات", desc: "تحديثات دورية عن حالة طلبك وتواصل مستمر مع الجهات المعنية." },
-        { title: "حجز المواعيد", desc: "تأمين مواعيد السفارات ومراكز التقديم بأسرع وقت ممكن." },
+        { title: "تأشيرات سياحية", desc: "إجراءات سياحية لأكثر من 150 وجهة حول العالم." },
+        { title: "تأشيرات دراسية", desc: "دعم كامل لتأمين القبول الجامعي وتأشيرة الدراسة." },
+        { title: "تأشيرات علاجية", desc: "تنسيق المواعيد الطبية في أفضل المراكز العالمية." },
+        { title: "تأشيرات عمل", desc: "حلول مخصصة للشركات والمهنيين دولياً." },
+        { title: "استشارات الهجرة", desc: "تحليل شامل لفرص الهجرة القانونية لكل حالة." },
+        { title: "تجهيز الملفات", desc: "إعداد احترافي يضمن أعلى نسب القبول." },
+        { title: "متابعة الطلبات", desc: "تحديثات دورية وتواصل مستمر مع السفارات." },
+        { title: "حجز المواعيد", desc: "تأمين مواعيد السفارات بأسرع وقت ممكن." },
       ],
     },
     why: {
-      title: "لماذا نور فيزا؟",
-      desc: "خبرة موثقة، شفافية كاملة، ونتائج تتحدث عن نفسها.",
+      kicker: "لماذا نور فيزا",
+      title: "خبرة موثقة، شفافية كاملة",
+      desc: "نتائج تتحدث عن نفسها — منذ 2014 ونحن نحوّل الأحلام إلى ختم سفر.",
       items: [
         { title: "خبرة عشر سنوات", desc: "عقد كامل من العمل المتخصص في عالم التأشيرات الدولية." },
         { title: "تغطية عالمية", desc: "علاقات راسخة مع السفارات في أكثر من 50 دولة." },
         { title: "استجابة فورية", desc: "فريق متاح على مدار الساعة للرد على استفساراتك." },
-        { title: "شفافية كاملة", desc: "لا رسوم خفية ولا وعود زائفة — فقط الحقيقة منذ اللحظة الأولى." },
+        { title: "شفافية كاملة", desc: "لا رسوم خفية ولا وعود زائفة — فقط الحقيقة." },
       ],
     },
     testimonials: {
       title: "ماذا يقول عملاؤنا",
       items: [
-        { quote: "احترافية عالية في التعامل وسرعة مذهلة في استخراج فيزا الشنغن.", name: "أحمد المهندس", role: "رجل أعمال" },
-        { quote: "أفضل مكتب تعاملت معه، صدق وأمانة ودقة في المواعيد.", name: "سارة علي", role: "طالبة دراسات عليا" },
-        { quote: "ساعدوني في تأمين قبول الجامعة والفيزا الأمريكية بكل سهولة.", name: "محمد الهاشمي", role: "طالب جامعي" },
+        { quote: "احترافية عالية وسرعة مذهلة في استخراج فيزا الشنغن. أنصح بهم بشدة!", name: "أحمد المهندس", role: "رجل أعمال" },
+        { quote: "أفضل مكتب تعاملت معه على الإطلاق — صدق وأمانة ودقة في المواعيد.", name: "سارة علي", role: "طالبة دراسات عليا" },
+        { quote: "ساعدوني في قبول الجامعة والفيزا الأمريكية بكل سهولة وسلاسة.", name: "محمد الهاشمي", role: "طالب جامعي" },
       ],
     },
     faq: {
-      title: "الأسئلة الشائعة",
+      title: "أسئلة شائعة",
       desc: "كل ما تحتاج معرفته قبل أن تبدأ.",
       items: [
-        { q: "كم تستغرق عملية معالجة الطلب؟", a: "تختلف المدة حسب نوع التأشيرة والدولة، لكن في المتوسط من أسبوع إلى أربعة أسابيع. نحرص على إنجاز كل خطوة بأسرع وقت ممكن." },
-        { q: "هل تضمنون الحصول على التأشيرة؟", a: "نضمن لك أعلى نسب القبول من خلال الإعداد المحترف للملف، لكن القرار النهائي يبقى للسفارة. شفافيتنا الكاملة تعني أننا نخبرك مسبقاً بفرص نجاح ملفك." },
-        { q: "ما هي الدول التي تشملها خدماتكم؟", a: "نقدم خدماتنا لأكثر من 50 دولة حول العالم تشمل أوروبا، أمريكا، كندا، أستراليا، آسيا، والخليج العربي." },
-        { q: "كيف أبدأ الإجراءات معكم؟", a: "تواصل معنا عبر واتساب للحصول على استشارة مجانية، وسنرشدك خطوة بخطوة لما يناسب حالتك." },
-        { q: "هل خدمة الاستشارة الأولى مجانية فعلاً؟", a: "نعم تماماً. نقدم استشارة أولى مجانية شاملة عبر واتساب دون أي التزام منك." },
+        { q: "كم تستغرق عملية معالجة الطلب؟", a: "تختلف المدة حسب نوع التأشيرة، لكن في المتوسط من أسبوع إلى أربعة أسابيع." },
+        { q: "هل تضمنون الحصول على التأشيرة؟", a: "نضمن أعلى نسب القبول من خلال الإعداد المحترف للملف، لكن القرار النهائي يبقى للسفارة." },
+        { q: "ما هي الدول التي تشملها خدماتكم؟", a: "نقدم خدماتنا لأكثر من 50 دولة تشمل أوروبا، أمريكا، كندا، أستراليا، آسيا، والخليج." },
+        { q: "كيف أبدأ الإجراءات معكم؟", a: "تواصل معنا عبر واتساب لاستشارة مجانية، وسنرشدك خطوة بخطوة." },
+        { q: "هل خدمة الاستشارة الأولى مجانية فعلاً؟", a: "نعم تماماً، استشارة شاملة عبر واتساب دون أي التزام." },
       ],
     },
-    cta: {
-      title: "ابدأ رحلتك الدولية اليوم",
-      desc: "فريقنا جاهز للرد على جميع استفساراتك وتقديم المشورة المهنية اللازمة خلال دقائق.",
-      button: "تحدث معنا الآن",
-      note: "استجابة خلال أقل من 15 دقيقة",
-    },
-    footer: {
-      rights: "© 2026 نور فيزا — جميع الحقوق محفوظة",
-      privacy: "الخصوصية",
-      terms: "الشروط",
-      contact: "تواصل",
-    },
+    cta: { title: "ابدأ رحلتك الدولية اليوم", desc: "فريقنا جاهز للرد على استفساراتك خلال دقائق وتقديم خطة عمل واضحة.", button: "تحدث معنا الآن", note: "استجابة خلال أقل من 15 دقيقة" },
+    footer: { rights: "© 2026 نور فيزا — جميع الحقوق محفوظة", privacy: "الخصوصية", terms: "الشروط", contact: "تواصل", tagline: "بوابتك الموثوقة إلى العالم منذ 2014." },
     fab: "تحدث معنا",
     menuOpen: "افتح القائمة",
     menuClose: "أغلق القائمة",
   },
   en: {
-    nav: {
-      services: "Services",
-      about: "About",
-      why: "Why Us",
-      faq: "FAQ",
-      contact: "Contact",
-      cta: "Free Consultation",
-    },
+    nav: { services: "Services", about: "About", why: "Why Us", faq: "FAQ", contact: "Contact", cta: "Free Consultation" },
     hero: {
-      eyebrow: "Est. 2014 — Premium Visa Services",
-      titleStart: "Noor Visa — Premium",
-      titleHighlight: "Global",
-      titleEnd: "Visa Services",
-      desc: "Over 10 years of experience in visa services and international consultation, helping more than 600 clients worldwide.",
-      ctaWhatsapp: "Chat on WhatsApp",
-      ctaServices: "Our Services",
+      eyebrow: "Est. 2014 — Trusted Worldwide",
+      titleStart: "Your gateway to the",
+      titleHighlight: "world",
+      titleEnd: "with confidence",
+      desc: "Noor Visa — a decade of expertise in visa and immigration services, helping 600+ clients realize their global dreams.",
+      ctaWhatsapp: "Start on WhatsApp",
+      ctaServices: "Explore services",
       badgeNumber: "+600",
       badgeLabel: "Successful Clients",
       portraitAlt: "Noor Visa — Certified Visa Consultant",
+      floatA: { label: "Approval rate", value: "98%" },
+      floatB: "Happy clients",
+      trust: "From verified clients",
     },
     stats: {
       title: "Numbers that build trust",
       items: [
-        { value: 10, suffix: "+", label: "Years of Experience" },
-        { value: 600, suffix: "+", label: "Happy Clients" },
-        { value: 50, suffix: "+", label: "Countries Worldwide" },
-        { value: 24, suffix: "/7", label: "Response Speed" },
+        { value: 10, suffix: "+", label: "Years experience" },
+        { value: 600, suffix: "+", label: "Happy clients" },
+        { value: 50, suffix: "+", label: "Countries" },
+        { value: 98, suffix: "%", label: "Approval rate" },
       ],
     },
     services: {
-      title: "Comprehensive Visa Solutions",
-      desc: "Specialized services for every type of travel and international application with the highest professional standards.",
+      kicker: "Services",
+      title: "Every visa deserves expertise",
+      desc: "End-to-end solutions for every type of international application.",
       items: [
-        { title: "Tourist Visas", desc: "Streamlined tourism and travel procedures for 150+ destinations worldwide." },
-        { title: "Student Visas", desc: "Full support for students to secure university admissions and study visas." },
-        { title: "Medical Visas", desc: "Coordinating medical appointments and treatment visas at top global centers." },
-        { title: "Work Visas", desc: "Tailored solutions for companies and professionals seeking international work." },
-        { title: "Immigration Consultation", desc: "Comprehensive analysis of legal immigration opportunities and pathways." },
-        { title: "File Preparation", desc: "Professional preparation of embassy files to ensure the highest approval rates." },
-        { title: "Application Follow-up", desc: "Regular updates on your application status and continuous communication with authorities." },
-        { title: "Appointment Booking", desc: "Securing embassy and application center appointments as fast as possible." },
+        { title: "Tourist Visas", desc: "Streamlined travel procedures for 150+ destinations." },
+        { title: "Student Visas", desc: "Full support to secure admission and study visas." },
+        { title: "Medical Visas", desc: "Appointments at the world's top medical centers." },
+        { title: "Work Visas", desc: "Tailored solutions for companies and professionals." },
+        { title: "Immigration", desc: "Comprehensive analysis of legal immigration pathways." },
+        { title: "File Preparation", desc: "Professional prep that maximizes approval rates." },
+        { title: "Follow-up", desc: "Regular updates and continuous embassy communication." },
+        { title: "Appointments", desc: "Embassy slots secured as fast as possible." },
       ],
     },
     why: {
-      title: "Why Noor Visa?",
-      desc: "Proven expertise, full transparency, and results that speak for themselves.",
+      kicker: "Why Noor Visa",
+      title: "Proven expertise, total transparency",
+      desc: "Since 2014, turning dreams into stamped passports.",
       items: [
-        { title: "A Decade of Expertise", desc: "Ten full years of specialized work in international visa services." },
-        { title: "Global Coverage", desc: "Established relationships with embassies in over 50 countries." },
-        { title: "Instant Response", desc: "A team available around the clock to answer your inquiries." },
-        { title: "Full Transparency", desc: "No hidden fees, no false promises — just the truth from the very first moment." },
+        { title: "A Decade of Expertise", desc: "Ten years of specialized international visa work." },
+        { title: "Global Coverage", desc: "Strong relationships with embassies in 50+ countries." },
+        { title: "Instant Response", desc: "Team available around the clock for your inquiries." },
+        { title: "Full Transparency", desc: "No hidden fees, no false promises — just the truth." },
       ],
     },
     testimonials: {
-      title: "What Our Clients Say",
+      title: "What our clients say",
       items: [
-        { quote: "Exceptional professionalism and remarkable speed in obtaining the Schengen visa.", name: "Ahmed Al-Muhandes", role: "Businessman" },
-        { quote: "The best office I have dealt with, honesty, integrity, and punctuality.", name: "Sara Ali", role: "Graduate Student" },
-        { quote: "They helped me secure my university admission and US visa with ease.", name: "Mohammed Al-Hashimi", role: "University Student" },
+        { quote: "Exceptional professionalism and amazing speed with my Schengen visa.", name: "Ahmed Al-Muhandes", role: "Businessman" },
+        { quote: "Best office I've ever worked with — honesty, integrity, punctuality.", name: "Sara Ali", role: "Graduate Student" },
+        { quote: "They helped me secure my university admission and US visa effortlessly.", name: "Mohammed Al-Hashimi", role: "University Student" },
       ],
     },
     faq: {
-      title: "Frequently Asked Questions",
-      desc: "Everything you need to know before getting started.",
+      title: "Frequently asked",
+      desc: "Everything you need to know before starting.",
       items: [
-        { q: "How long does processing take?", a: "It varies by visa type and country, but on average from one to four weeks. We ensure every step is completed as quickly as possible." },
-        { q: "Do you guarantee getting the visa?", a: "We guarantee the highest approval rates through professional file preparation, but the final decision remains with the embassy. Our transparency means we tell you upfront about your file's chances." },
-        { q: "Which countries do your services cover?", a: "We provide services for over 50 countries worldwide including Europe, USA, Canada, Australia, Asia, and the Gulf." },
-        { q: "How do I start with you?", a: "Contact us via WhatsApp for a free consultation, and we will guide you step by step through what suits your case." },
-        { q: "Is the first consultation really free?", a: "Absolutely. We provide a comprehensive free first consultation via WhatsApp with no commitment from you." },
+        { q: "How long does processing take?", a: "It varies by visa type, but typically one to four weeks on average." },
+        { q: "Do you guarantee getting the visa?", a: "We guarantee top approval rates through professional file prep, but the final decision is the embassy's." },
+        { q: "Which countries do you cover?", a: "50+ countries including Europe, USA, Canada, Australia, Asia, and the Gulf." },
+        { q: "How do I get started?", a: "Reach us on WhatsApp for a free consultation, and we'll guide you step by step." },
+        { q: "Is the first consultation really free?", a: "Absolutely — a full consultation on WhatsApp with zero commitment." },
       ],
     },
-    cta: {
-      title: "Start Your International Journey Today",
-      desc: "Our team is ready to answer all your inquiries and provide professional advice within minutes.",
-      button: "Talk to us now",
-      note: "Response in under 15 minutes",
-    },
-    footer: {
-      rights: "© 2026 Noor Visa — All Rights Reserved",
-      privacy: "Privacy",
-      terms: "Terms",
-      contact: "Contact",
-    },
+    cta: { title: "Start your global journey today", desc: "Our team responds in minutes with a clear plan tailored to your case.", button: "Talk to us now", note: "Reply in under 15 minutes" },
+    footer: { rights: "© 2026 Noor Visa — All rights reserved", privacy: "Privacy", terms: "Terms", contact: "Contact", tagline: "Your trusted gateway to the world since 2014." },
     fab: "Chat with us",
     menuOpen: "Open menu",
     menuClose: "Close menu",
