@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
+import { Marquee } from "@/components/Marquee";
 import { Stats } from "@/components/Stats";
 import { Services } from "@/components/Services";
 import { WhyUs } from "@/components/WhyUs";
@@ -14,26 +15,18 @@ import { WhatsAppFab } from "@/components/WhatsAppFab";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "نور فيزا — خدمات تأشيرات احترافية بخبرة عالمية | Noor Visa" },
+      { title: "نور فيزا — استشارات تأشيرات راقية بخبرة عالمية | Noor Visa" },
       {
         name: "description",
-        content:
-          "نور فيزا — خبراء التأشيرات والاستشارات الدولية لأكثر من 10 سنوات. تأشيرات سياحية، دراسية، علاجية، عمل، استشارات هجرة. استشارة مجانية عبر واتساب.",
+        content: "نور فيزا — خبراء التأشيرات والاستشارات الدولية منذ 2014. أكثر من 600 عميل ناجح في 50 دولة. استشارة مجانية عبر واتساب خلال 15 دقيقة.",
       },
-      {
-        name: "keywords",
-        content:
-          "نور فيزا, خدمات التأشيرات, استخراج فيزا, تأشيرات سياحية, تأشيرات دراسية, استشارات الهجرة, مكتب فيزا الأردن, Noor Visa, visa services, immigration consultation",
-      },
-      { property: "og:title", content: "نور فيزا — خدمات تأشيرات احترافية | Noor Visa" },
+      { name: "keywords", content: "نور فيزا, خدمات التأشيرات, استخراج فيزا, تأشيرات سياحية, تأشيرات دراسية, استشارات الهجرة, Noor Visa, visa services" },
+      { property: "og:title", content: "نور فيزا — استشارات تأشيرات راقية | Noor Visa" },
       { property: "og:description", content: "خبرة 10 سنوات و+600 عميل ناجح. استشارة مجانية عبر واتساب." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
       { property: "og:locale", content: "ar_JO" },
       { property: "og:locale:alternate", content: "en_US" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Noor Visa — Premium Global Visa Services" },
-      { name: "twitter:description", content: "10+ years of expertise. 600+ successful clients. Free WhatsApp consultation." },
     ],
     links: [{ rel: "canonical", href: "/" }],
     scripts: [
@@ -48,18 +41,8 @@ export const Route = createFileRoute("/")({
           telephone: "+962782727279",
           foundingDate: "2014",
           areaServed: "Worldwide",
-          serviceType: [
-            "Tourist Visa",
-            "Student Visa",
-            "Medical Visa",
-            "Work Visa",
-            "Immigration Consultation",
-          ],
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: "5",
-            reviewCount: "600",
-          },
+          serviceType: ["Tourist Visa", "Student Visa", "Medical Visa", "Work Visa", "Immigration Consultation"],
+          aggregateRating: { "@type": "AggregateRating", ratingValue: "5", reviewCount: "600" },
           sameAs: ["https://wa.me/962782727279"],
         }),
       },
@@ -71,10 +54,11 @@ export const Route = createFileRoute("/")({
 function NoorVisaPage() {
   return (
     <LanguageProvider>
-      <div className="bg-onyx text-stone-100 min-h-screen">
+      <div className="bg-ivory text-ink min-h-screen relative">
         <Nav />
         <main>
           <Hero />
+          <Marquee />
           <Stats />
           <Services />
           <WhyUs />
