@@ -50,7 +50,7 @@ export function Services() {
       <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-6 auto-rows-[minmax(140px,auto)] gap-3 sm:gap-4">
         {t.services.items.map((s, i) => {
           const Icon = ICONS[i % ICONS.length];
-          const [cs, rs] = BENTO[i] ?? [3, 1];
+          const span = BENTO[i] ?? "col-span-2 md:col-span-3 md:row-span-1";
           const featured = i === 0 || i === 3;
           return (
             <motion.div
@@ -58,8 +58,7 @@ export function Services() {
               initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.6, delay: (i % 4) * 0.07, ease }}
-              className={`col-span-2 md:col-span-${cs} row-span-${rs}`}
-              style={{ gridColumn: `span ${cs} / span ${cs}`, gridRow: `span ${rs} / span ${rs}` }}
+              className={span}
             >
               <TiltCard
                 intensity={6}
