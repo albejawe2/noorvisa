@@ -6,10 +6,16 @@ import { Plane, GraduationCap, HeartPulse, Briefcase, Globe2, FileCheck, Bell, C
 
 const ICONS = [Plane, GraduationCap, HeartPulse, Briefcase, Globe2, FileCheck, Bell, CalendarCheck];
 
-// Bento layout per index: [colSpan, rowSpan] on md+
-const BENTO: Array<[number, number]> = [
-  [3, 2], [3, 1], [2, 1], [2, 2], [2, 1],
-  [3, 1], [3, 1], [6, 1],
+// Bento layout — static classes so Tailwind v4 picks them up
+const BENTO = [
+  "col-span-2 md:col-span-3 md:row-span-2",
+  "col-span-2 md:col-span-3 md:row-span-1",
+  "col-span-1 md:col-span-2 md:row-span-1",
+  "col-span-2 md:col-span-2 md:row-span-2",
+  "col-span-1 md:col-span-2 md:row-span-1",
+  "col-span-2 md:col-span-3 md:row-span-1",
+  "col-span-2 md:col-span-3 md:row-span-1",
+  "col-span-2 md:col-span-6 md:row-span-1",
 ];
 
 const ease = [0.22, 1, 0.36, 1] as const;
