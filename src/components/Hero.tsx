@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { MessageCircle, Sparkles, ArrowDown, Globe2, Plane } from "lucide-react";
 import portrait from "../assets/noor-portrait-cutout.png";
 import { useLang } from "./LanguageProvider";
-import { TiltCard } from "./TiltCard";
 import { MagneticLink } from "./MagneticButton";
 import { Aurora } from "./Aurora";
 import { Counter } from "./Counter";
