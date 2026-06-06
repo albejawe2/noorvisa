@@ -194,6 +194,6 @@ export const translations: Record<Lang, Dict> = {
     menuOpen: "Open menu",
     menuClose: "Close menu",
   },
-} as const;
+};
 
-export type Translations = typeof translations.ar;
+export type Translations = Dict;
