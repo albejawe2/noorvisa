@@ -26,6 +26,7 @@ export function Nav() {
 
   const links = [
     { href: "#services", label: t.nav.services },
+    { href: "#tools", label: t.nav.tools },
     { href: "#why", label: t.nav.why },
     { href: "#faq", label: t.nav.faq },
     { href: "#contact", label: t.nav.contact },
@@ -45,7 +46,7 @@ export function Nav() {
           <a href="#top" className="flex items-center gap-2">
             <div className="size-7 sm:size-8 rounded-full bg-sunset shadow-[var(--shadow-soft)]" />
             <span className="text-base sm:text-lg font-display font-bold tracking-tight">
-              نور <span className="text-sunset italic">فيزا</span>
+              Noor<span className="text-sunset italic">Visa</span>
             </span>
           </a>
 
@@ -89,7 +90,7 @@ export function Nav() {
             <div className="relative h-full flex flex-col px-6 pt-5">
               <div className="flex items-center justify-between">
                 <span className="text-lg font-display font-bold">
-                  نور <span className="text-sunset italic">فيزا</span>
+                  Noor<span className="text-sunset italic">Visa</span>
                 </span>
                 <button onClick={() => setOpen(false)} aria-label={t.menuClose} className="size-9 grid place-items-center">
                   <X className="size-5" />
