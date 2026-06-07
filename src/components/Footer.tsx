@@ -10,7 +10,7 @@ export function Footer() {
             <a href="#top" className="inline-flex items-center gap-2 mb-3">
               <div className="size-8 rounded-full bg-sunset" />
               <span className="text-2xl font-display font-bold">
-                نور <span className="text-sunset italic">فيزا</span>
+                Noor<span className="text-sunset italic">Visa</span>
               </span>
             </a>
             <p className="text-ivory/60 max-w-sm text-sm">{t.footer.tagline}</p>
@@ -24,7 +24,7 @@ export function Footer() {
         </div>
         <div className="border-t border-ivory/10 mt-10 pt-6 flex flex-col sm:flex-row justify-between gap-3 text-xs text-ivory/50">
           <span>{t.footer.rights}</span>
-          <span>Crafted with care · نور فيزا</span>
+          <span>Crafted with care · NoorVisa</span>
         </div>
       </div>
     </footer>

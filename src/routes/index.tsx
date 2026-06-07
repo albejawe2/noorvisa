@@ -5,6 +5,7 @@ import { Hero } from "@/components/Hero";
 import { Marquee } from "@/components/Marquee";
 import { Stats } from "@/components/Stats";
 import { Services } from "@/components/Services";
+import { TravelHub } from "@/components/TravelHub";
 import { WhyUs } from "@/components/WhyUs";
 import { Testimonials } from "@/components/Testimonials";
 import { FAQ } from "@/components/FAQ";
@@ -15,14 +16,14 @@ import { WhatsAppFab } from "@/components/WhatsAppFab";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "نور فيزا — استشارات تأشيرات راقية بخبرة عالمية | Noor Visa" },
+      { title: "NoorVisa — استشارات تأشيرات شخصية بخبرة عالمية | NoorVisa" },
       {
         name: "description",
-        content: "نور فيزا — خبراء التأشيرات والاستشارات الدولية منذ 2014. أكثر من 600 عميل ناجح في 50 دولة. استشارة مجانية عبر واتساب خلال 15 دقيقة.",
+        content: "NoorVisa — مستشار مستقل للتأشيرات والاستشارات الدولية منذ 2016. أكثر من 600 شخص ناجح في 50 دولة. ترجمة معتمدة وتأمين سفر. استشارة مجانية عبر واتساب خلال 15 دقيقة.",
       },
-      { name: "keywords", content: "نور فيزا, خدمات التأشيرات, استخراج فيزا, تأشيرات سياحية, تأشيرات دراسية, استشارات الهجرة, Noor Visa, visa services" },
-      { property: "og:title", content: "نور فيزا — استشارات تأشيرات راقية | Noor Visa" },
-      { property: "og:description", content: "خبرة 10 سنوات و+600 عميل ناجح. استشارة مجانية عبر واتساب." },
+      { name: "keywords", content: "NoorVisa, خدمات التأشيرات, استخراج فيزا, تأشيرات سياحية, تأشيرات دراسية, ترجمة معتمدة, تأمين سفر, visa services" },
+      { property: "og:title", content: "NoorVisa — استشارات تأشيرات شخصية" },
+      { property: "og:description", content: "خبرة 9 سنوات و+600 شخص ناجح. ترجمة معتمدة وتأمين سفر. استشارة مجانية عبر واتساب." },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "ar_JO" },
       { property: "og:locale:alternate", content: "en_US" },
@@ -35,13 +36,12 @@ export const Route = createFileRoute("/")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "ProfessionalService",
-          name: "Noor Visa",
-          alternateName: "نور فيزا",
-          description: "Premium global visa services and immigration consultation.",
+          name: "NoorVisa",
+          description: "Independent personal visa consultant and immigration services.",
           telephone: "+962782727279",
-          foundingDate: "2014",
+          foundingDate: "2016",
           areaServed: "Worldwide",
-          serviceType: ["Tourist Visa", "Student Visa", "Medical Visa", "Work Visa", "Immigration Consultation"],
+          serviceType: ["Tourist Visa", "Student Visa", "Medical Visa", "Work Visa", "Certified Translation", "Travel Insurance", "Immigration Consultation"],
           aggregateRating: { "@type": "AggregateRating", ratingValue: "5", reviewCount: "600" },
           sameAs: ["https://wa.me/962782727279"],
         }),
