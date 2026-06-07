@@ -61,6 +61,7 @@ function NoorVisaPage() {
           <Marquee />
           <Stats />
           <Services />
+          <TravelHub />
           <WhyUs />
           <Testimonials />
           <FAQ />
