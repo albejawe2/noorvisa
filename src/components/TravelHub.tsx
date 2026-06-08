@@ -401,7 +401,7 @@ function CountryPanel({ countries }: { countries: Country[] }) {
               <Stat label={t.tools.country.languages} value={country.languages ? Object.values(country.languages).slice(0, 3).join(", ") : "—"} />
               <Stat label={t.tools.country.currencies} value={country.currencies ? Object.entries(country.currencies).map(([k, v]) => `${k} ${v.symbol ?? ""}`).join(", ") : "—"} />
               <Stat label={t.tools.country.timezone} value={country.timezones?.[0] ?? "—"} />
-              <Stat label={t.tools.country.calling} value={country.idd?.root ? `${country.idd.root}${country.idd.suffixes?.[0] ?? ""}` : "—"} />
+              
             </dl>
           </motion.div>
         ) : (
