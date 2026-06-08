@@ -49,9 +49,13 @@ function parseVisaCell(raw: string): { status: "free" | "eta" | "evisa" | "requi
 let countriesPromise: Promise<Country[]> | null = null;
 function fetchCountries(): Promise<Country[]> {
   if (!countriesPromise) {
-    countriesPromise = fetch("https://restcountries.com/v3.1/all?fields=cca2,name,translations,capital,population,region,languages,currencies,timezones,idd,latlng,capitalInfo,flag")
-      .then((r) => r.json())
-      .then((arr: Country[]) => arr.sort((a, b) => a.name.common.localeCompare(b.name.common)));
+    countriesPromise = fetch("https://restcountries.com/v3.1/all?fields=cca2,name,translations,capital,population,region,languages,currencies,timezones,idd,flag,capitalInfo")
+      .then((r) => {
+        if (!r.ok) throw new Error("countries fetch failed " + r.status);
+        return r.json();
+      })
+      .then((arr: Country[]) => arr.sort((a, b) => a.name.common.localeCompare(b.name.common)))
+      .catch((e) => { countriesPromise = null; throw e; });
   }
   return countriesPromise;
 }
