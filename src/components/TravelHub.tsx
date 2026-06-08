@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plane, Coins, Globe2, Cloud, Search, Loader2, CheckCircle2, AlertTriangle, XCircle, Info } from "lucide-react";
+import { Plane, Coins, Globe2, Search, Loader2, CheckCircle2, AlertTriangle, XCircle, Info } from "lucide-react";
 import { useLang } from "./LanguageProvider";
 
 type Country = {
@@ -49,9 +49,13 @@ function parseVisaCell(raw: string): { status: "free" | "eta" | "evisa" | "requi
 let countriesPromise: Promise<Country[]> | null = null;
 function fetchCountries(): Promise<Country[]> {
   if (!countriesPromise) {
-    countriesPromise = fetch("https://restcountries.com/v3.1/all?fields=cca2,name,translations,capital,population,region,languages,currencies,timezones,idd,latlng,capitalInfo,flag")
-      .then((r) => r.json())
-      .then((arr: Country[]) => arr.sort((a, b) => a.name.common.localeCompare(b.name.common)));
+    countriesPromise = fetch("https://restcountries.com/v3.1/all?fields=cca2,name,translations,capital,population,region,languages,currencies,timezones,flag")
+      .then((r) => {
+        if (!r.ok) throw new Error("countries fetch failed " + r.status);
+        return r.json();
+      })
+      .then((arr: Country[]) => arr.sort((a, b) => a.name.common.localeCompare(b.name.common)))
+      .catch((e) => { countriesPromise = null; throw e; });
   }
   return countriesPromise;
 }
@@ -88,8 +92,8 @@ function countryLabel(c: Country, lang: "ar" | "en"): string {
 }
 
 export function TravelHub() {
-  const { t, lang } = useLang();
-  const [tab, setTab] = useState<"visa" | "currency" | "country" | "weather">("visa");
+  const { t } = useLang();
+  const [tab, setTab] = useState<"visa" | "currency" | "country">("visa");
   const [countries, setCountries] = useState<Country[]>([]);
 
   useEffect(() => {
@@ -100,7 +104,6 @@ export function TravelHub() {
     { id: "visa" as const, label: t.tools.tabs.visa, icon: Plane },
     { id: "currency" as const, label: t.tools.tabs.currency, icon: Coins },
     { id: "country" as const, label: t.tools.tabs.country, icon: Globe2 },
-    { id: "weather" as const, label: t.tools.tabs.weather, icon: Cloud },
   ];
 
   return (
@@ -155,7 +158,7 @@ export function TravelHub() {
           {tab === "visa" && <VisaPanel countries={countries} />}
           {tab === "currency" && <CurrencyPanel countries={countries} />}
           {tab === "country" && <CountryPanel countries={countries} />}
-          {tab === "weather" && <WeatherPanel countries={countries} />}
+          
         </motion.div>
 
         <p className="mt-5 text-center text-xs text-muted-foreground">{t.tools.powered}</p>
@@ -398,7 +401,7 @@ function CountryPanel({ countries }: { countries: Country[] }) {
               <Stat label={t.tools.country.languages} value={country.languages ? Object.values(country.languages).slice(0, 3).join(", ") : "—"} />
               <Stat label={t.tools.country.currencies} value={country.currencies ? Object.entries(country.currencies).map(([k, v]) => `${k} ${v.symbol ?? ""}`).join(", ") : "—"} />
               <Stat label={t.tools.country.timezone} value={country.timezones?.[0] ?? "—"} />
-              <Stat label={t.tools.country.calling} value={country.idd?.root ? `${country.idd.root}${country.idd.suffixes?.[0] ?? ""}` : "—"} />
+              
             </dl>
           </motion.div>
         ) : (
@@ -418,64 +421,3 @@ function Stat({ label, value }: { label: string; value: string }) {
   );
 }
 
-/* ---------------- Weather Panel ---------------- */
-function WeatherPanel({ countries }: { countries: Country[] }) {
-  const { t, lang } = useLang();
-  const [code, setCode] = useState("FR");
-  const country = countries.find((c) => c.cca2 === code);
-  const [weather, setWeather] = useState<{ temperature: number; windspeed: number; weathercode: number; humidity?: number } | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!country?.capitalInfo?.latlng) return;
-    const [lat, lon] = country.capitalInfo.latlng;
-    setLoading(true);
-    setWeather(null);
-    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,wind_speed_10m,relative_humidity_2m,weather_code`)
-      .then((r) => r.json())
-      .then((j) => {
-        setWeather({
-          temperature: j.current?.temperature_2m,
-          windspeed: j.current?.wind_speed_10m,
-          humidity: j.current?.relative_humidity_2m,
-          weathercode: j.current?.weather_code,
-        });
-      })
-      .catch(() => setWeather(null))
-      .finally(() => setLoading(false));
-  }, [country]);
-
-  return (
-    <div className="grid lg:grid-cols-2 gap-6 items-start">
-      <div>
-        <h3 className="text-2xl sm:text-3xl font-display font-bold mb-2">{t.tools.weather.title}</h3>
-        <p className="text-sm text-muted-foreground mb-6">{t.tools.weather.desc}</p>
-        <CountrySelect label={t.tools.country.select} value={code} onChange={setCode} countries={countries} />
-      </div>
-      <div className="lg:pl-6 ltr:lg:border-l rtl:lg:border-r border-ink/5">
-        <div className="p-6 rounded-2xl bg-gradient-to-br from-sky-50 to-cream min-h-[280px] flex flex-col justify-center">
-          {loading && <div className="text-center text-muted-foreground"><Loader2 className="size-8 mx-auto animate-spin text-ember" /><p className="mt-2 text-sm">{t.tools.weather.loading}</p></div>}
-          {!loading && weather && country && (
-            <>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-4xl">{country.flag}</span>
-                <div>
-                  <div className="text-lg font-display font-bold">{country.capital?.[0]}</div>
-                  <div className="text-xs text-muted-foreground">{countryLabel(country, lang)}</div>
-                </div>
-              </div>
-              <div className="text-6xl sm:text-7xl font-display font-bold text-sunset leading-none">
-                {Math.round(weather.temperature)}°
-              </div>
-              <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
-                <Stat label={t.tools.weather.wind} value={`${Math.round(weather.windspeed)} km/h`} />
-                <Stat label={t.tools.weather.humidity} value={`${weather.humidity ?? "—"}%`} />
-              </div>
-            </>
-          )}
-          {!loading && !weather && <div className="text-center text-muted-foreground text-sm">—</div>}
-        </div>
-      </div>
-    </div>
-  );
-}
