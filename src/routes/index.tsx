@@ -6,6 +6,7 @@ import { Marquee } from "@/components/Marquee";
 import { Stats } from "@/components/Stats";
 import { Services } from "@/components/Services";
 import { TravelHub } from "@/components/TravelHub";
+import { WorldVisaMap } from "@/components/WorldVisaMap";
 import { WhyUs } from "@/components/WhyUs";
 import { Testimonials } from "@/components/Testimonials";
 import { FAQ } from "@/components/FAQ";
@@ -62,6 +63,7 @@ function NoorVisaPage() {
           <Stats />
           <Services />
           <TravelHub />
+          <WorldVisaMap />
           <WhyUs />
           <Testimonials />
           <FAQ />
