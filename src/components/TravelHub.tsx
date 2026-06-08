@@ -158,7 +158,7 @@ export function TravelHub() {
           {tab === "visa" && <VisaPanel countries={countries} />}
           {tab === "currency" && <CurrencyPanel countries={countries} />}
           {tab === "country" && <CountryPanel countries={countries} />}
-          {tab === "weather" && <WeatherPanel countries={countries} />}
+          
         </motion.div>
 
         <p className="mt-5 text-center text-xs text-muted-foreground">{t.tools.powered}</p>
