@@ -93,7 +93,7 @@ function countryLabel(c: Country, lang: "ar" | "en"): string {
 
 export function TravelHub() {
   const { t } = useLang();
-  const [tab, setTab] = useState<"visa" | "currency" | "country" | "weather">("visa");
+  const [tab, setTab] = useState<"visa" | "currency" | "country">("visa");
   const [countries, setCountries] = useState<Country[]>([]);
 
   useEffect(() => {
@@ -104,7 +104,6 @@ export function TravelHub() {
     { id: "visa" as const, label: t.tools.tabs.visa, icon: Plane },
     { id: "currency" as const, label: t.tools.tabs.currency, icon: Coins },
     { id: "country" as const, label: t.tools.tabs.country, icon: Globe2 },
-    { id: "weather" as const, label: t.tools.tabs.weather, icon: Cloud },
   ];
 
   return (
