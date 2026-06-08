@@ -92,7 +92,7 @@ function countryLabel(c: Country, lang: "ar" | "en"): string {
 }
 
 export function TravelHub() {
-  const { t, lang } = useLang();
+  const { t } = useLang();
   const [tab, setTab] = useState<"visa" | "currency" | "country" | "weather">("visa");
   const [countries, setCountries] = useState<Country[]>([]);
 
