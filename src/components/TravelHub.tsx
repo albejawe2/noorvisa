@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plane, Coins, Globe2, Cloud, Search, Loader2, CheckCircle2, AlertTriangle, XCircle, Info } from "lucide-react";
+import { Plane, Coins, Globe2, Search, Loader2, CheckCircle2, AlertTriangle, XCircle, Info } from "lucide-react";
 import { useLang } from "./LanguageProvider";
 
 type Country = {
