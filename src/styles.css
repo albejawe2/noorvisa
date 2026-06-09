@@ -58,39 +58,40 @@
 :root {
   --radius: 1rem;
 
-  --ivory: #faf6f0;
-  --cream: #f2ebde;
-  --ink: #0f0d0b;
-  --ink-soft: #2a2520;
-  --ember: #ff5a1f;
-  --rose-deep: #e11d48;
-  --emerald-deep: #047857;
-  --amber-warm: #f59e0b;
+  /* Brown & Gold palette */
+  --ivory: #f7f1e6;            /* warm cream background */
+  --cream: #ece0c8;            /* soft sand */
+  --ink: #2a1a0f;              /* deep espresso (was near-black) */
+  --ink-soft: #4a2e1c;          /* warm brown */
+  --ember: #c9a04a;            /* primary gold accent (was orange) */
+  --rose-deep: #6b3a1a;        /* rich saddle brown */
+  --emerald-deep: #5a3a1a;     /* dark walnut */
+  --amber-warm: #d4af37;       /* royal gold */
 
   --background: var(--ivory);
   --foreground: var(--ink);
-  --card: #ffffff;
+  --card: #fbf6ec;
   --card-foreground: var(--ink);
-  --popover: #ffffff;
+  --popover: #fbf6ec;
   --popover-foreground: var(--ink);
   --primary: var(--ink);
   --primary-foreground: var(--ivory);
   --secondary: var(--cream);
   --secondary-foreground: var(--ink);
   --muted: var(--cream);
-  --muted-foreground: #6b6358;
+  --muted-foreground: #7a5a3d;
   --accent: var(--ember);
-  --accent-foreground: #ffffff;
+  --accent-foreground: #2a1a0f;
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: #ffffff;
-  --border: rgba(15, 13, 11, 0.08);
-  --input: rgba(15, 13, 11, 0.08);
+  --border: rgba(74, 46, 28, 0.14);
+  --input: rgba(74, 46, 28, 0.14);
   --ring: var(--ember);
 
-  --gradient-sunset: linear-gradient(135deg, #ff7a18 0%, #ff5a1f 35%, #e11d48 100%);
-  --gradient-warm: linear-gradient(180deg, #faf6f0 0%, #f6ead7 100%);
-  --shadow-soft: 0 20px 50px -20px rgba(225, 29, 72, 0.18);
-  --shadow-card: 0 30px 60px -30px rgba(15, 13, 11, 0.25);
+  --gradient-sunset: linear-gradient(135deg, #d4af37 0%, #c9a04a 40%, #6b3a1a 100%);
+  --gradient-warm: linear-gradient(180deg, #f7f1e6 0%, #ece0c8 100%);
+  --shadow-soft: 0 20px 50px -20px rgba(107, 58, 26, 0.28);
+  --shadow-card: 0 30px 60px -30px rgba(42, 26, 15, 0.35);
 }
 
 @layer base {
