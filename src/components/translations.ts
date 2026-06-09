@@ -336,7 +336,7 @@ export const translations: Record<Lang, Dict> = {
         wind: "Wind",
         humidity: "Humidity",
       },
-      powered: "Live data from REST Countries, Open-Meteo & Frankfurter — free open APIs.",
+      powered: "\n",
     },
   },
 };
