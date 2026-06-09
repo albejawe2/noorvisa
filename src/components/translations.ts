@@ -190,7 +190,7 @@ export const translations: Record<Lang, Dict> = {
         wind: "الرياح",
         humidity: "الرطوبة",
       },
-      powered: "بيانات حية من REST Countries و Open-Meteo و Frankfurter — مصادر مجانية ومفتوحة.",
+      powered: "\n",
     },
   },
   en: {
