@@ -156,7 +156,7 @@
   100% { background-position: 200% 0; }
 }
 .shimmer-text {
-  background: linear-gradient(90deg, #0f0d0b 0%, #ff5a1f 50%, #0f0d0b 100%);
+  background: linear-gradient(90deg, #2a1a0f 0%, #d4af37 50%, #2a1a0f 100%);
   background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
