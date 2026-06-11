@@ -41,7 +41,7 @@ function AdminPage() {
   const [ready, setReady] = useState(false);
   const [authed, setAuthed] = useState(false);
 
-  useEffect(() => { setAuthed(isAuthed()); setReady(true); }, []);
+  useEffect(() => { isAuthed().then((v) => { setAuthed(v); setReady(true); }); }, []);
 
   if (!ready) {
     return <div className="min-h-screen bg-[#1a0f08] grid place-items-center text-[#d4af37]">...</div>;
@@ -131,8 +131,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     { id: "settings", label: "الإعدادات", icon: Settings },
   ];
 
-  function handleLogout() {
-    logout(); onLogout();
+  async function handleLogout() {
+    await logout(); onLogout();
   }
 
   function go(t: Tab) { setTab(t); setSidebar(false); }
@@ -221,7 +221,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
 /* ---------------- Overview ---------------- */
 function OverviewTab() {
   const [apps, setApps] = useState<VisaApp[]>([]);
-  useEffect(() => { setApps(listApps()); }, []);
+  useEffect(() => { listApps().then(setApps); }, []);
 
   const stats = useMemo(() => {
     const total = apps.length;
@@ -323,8 +323,8 @@ function ApplicationsTab() {
   const [editing, setEditing] = useState<VisaApp | null>(null);
   const [creating, setCreating] = useState(false);
 
-  function refresh() { setApps(listApps()); }
-  useEffect(refresh, []);
+  function refresh() { listApps().then(setApps); }
+  useEffect(() => { refresh(); }, []);
 
   const filtered = useMemo(() => {
     const t = q.trim().toLowerCase();
@@ -334,9 +334,9 @@ function ApplicationsTab() {
       .sort((a, b) => b.createdAt - a.createdAt);
   }, [apps, q, filter]);
 
-  function onDelete(id: string) {
+  async function onDelete(id: string) {
     if (!confirm("هل أنت متأكد من حذف هذا الطلب؟")) return;
-    deleteApp(id); refresh();
+    await deleteApp(id); refresh();
   }
 
   return (
@@ -464,10 +464,13 @@ function AppEditor({ initial, onClose, onSaved }: { initial?: VisaApp; onClose: 
     initial ?? { id: newId(), fullName: "", phone: "", country: "", visaType: "سياحية", status: "new", price: 0, createdAt: Date.now() }
   );
 
-  function save(e: React.FormEvent) {
+  const [saving, setSaving] = useState(false);
+  async function save(e: React.FormEvent) {
     e.preventDefault();
     if (!form.fullName.trim() || !form.country.trim() || !form.phone.trim()) return;
-    upsertApp(form);
+    setSaving(true);
+    await upsertApp(form);
+    setSaving(false);
     onSaved();
   }
 
@@ -601,8 +604,8 @@ function SettingsTab({ onCredChanged }: { onCredChanged: (newUsername: string) =
         </form>
       </div>
 
-      <div className="mt-5 p-4 bg-amber-50 border border-amber-200 rounded-2xl text-sm text-amber-900">
-        <strong>ملاحظة:</strong> البيانات محفوظة في متصفحك بشكل آمن. لاستخدام اللوحة من جهاز آخر تحتاج لإعادة إعداد كلمة السر من ذلك الجهاز.
+      <div className="mt-5 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-sm text-emerald-900">
+        <strong>متصل بـ Supabase:</strong> جميع الطلبات وبيانات الدخول محفوظة في قاعدة بياناتك السحابية، ويمكنك الوصول للوحة من أي جهاز.
       </div>
     </div>
   );
