@@ -14,16 +14,349 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      activity_log: {
+        Row: {
+          action: string
+          actor: string | null
+          created_at: string
+          entity_id: string | null
+          entity_type: string
+          id: string
+          meta: Json | null
+        }
+        Insert: {
+          action: string
+          actor?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          meta?: Json | null
+        }
+        Update: {
+          action?: string
+          actor?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          meta?: Json | null
+        }
+        Relationships: []
+      }
+      customers: {
+        Row: {
+          address: string | null
+          created_at: string
+          created_by: string | null
+          dob: string | null
+          email: string | null
+          full_name: string
+          gender: string | null
+          id: string
+          nationality: string | null
+          notes: string | null
+          passport_no: string | null
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          created_by?: string | null
+          dob?: string | null
+          email?: string | null
+          full_name: string
+          gender?: string | null
+          id?: string
+          nationality?: string | null
+          notes?: string | null
+          passport_no?: string | null
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          created_by?: string | null
+          dob?: string | null
+          email?: string | null
+          full_name?: string
+          gender?: string | null
+          id?: string
+          nationality?: string | null
+          notes?: string | null
+          passport_no?: string | null
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      documents: {
+        Row: {
+          app_id: string | null
+          created_at: string
+          customer_id: string | null
+          file_name: string
+          file_path: string
+          file_size: number | null
+          id: string
+          kind: string
+          mime_type: string | null
+          ocr_data: Json | null
+          uploaded_by: string | null
+        }
+        Insert: {
+          app_id?: string | null
+          created_at?: string
+          customer_id?: string | null
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          id?: string
+          kind?: string
+          mime_type?: string | null
+          ocr_data?: Json | null
+          uploaded_by?: string | null
+        }
+        Update: {
+          app_id?: string | null
+          created_at?: string
+          customer_id?: string | null
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          id?: string
+          kind?: string
+          mime_type?: string | null
+          ocr_data?: Json | null
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "visa_apps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "documents_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          app_id: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          id: string
+          method: string | null
+          note: string | null
+          paid_at: string
+        }
+        Insert: {
+          amount: number
+          app_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          id?: string
+          method?: string | null
+          note?: string | null
+          paid_at?: string
+        }
+        Update: {
+          amount?: number
+          app_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          id?: string
+          method?: string | null
+          note?: string | null
+          paid_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "visa_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tasks: {
+        Row: {
+          app_id: string | null
+          assigned_to: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          done: boolean
+          due_date: string | null
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          app_id?: string | null
+          assigned_to?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          done?: boolean
+          due_date?: string | null
+          id?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          app_id?: string | null
+          assigned_to?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          done?: boolean
+          due_date?: string | null
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "visa_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      visa_apps: {
+        Row: {
+          appointment_date: string | null
+          country: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          customer_id: string | null
+          decision_date: string | null
+          email: string | null
+          full_name: string
+          id: string
+          nationality: string | null
+          notes: string | null
+          paid: number
+          passport_no: string | null
+          phone: string
+          price: number
+          status: string
+          submission_date: string | null
+          travel_date: string | null
+          updated_at: string
+          visa_type: string
+        }
+        Insert: {
+          appointment_date?: string | null
+          country: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          customer_id?: string | null
+          decision_date?: string | null
+          email?: string | null
+          full_name: string
+          id?: string
+          nationality?: string | null
+          notes?: string | null
+          paid?: number
+          passport_no?: string | null
+          phone: string
+          price?: number
+          status?: string
+          submission_date?: string | null
+          travel_date?: string | null
+          updated_at?: string
+          visa_type: string
+        }
+        Update: {
+          appointment_date?: string | null
+          country?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          customer_id?: string | null
+          decision_date?: string | null
+          email?: string | null
+          full_name?: string
+          id?: string
+          nationality?: string | null
+          notes?: string | null
+          paid?: number
+          passport_no?: string | null
+          phone?: string
+          price?: number
+          status?: string
+          submission_date?: string | null
+          travel_date?: string | null
+          updated_at?: string
+          visa_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visa_apps_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "staff"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +483,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "staff"],
+    },
   },
 } as const
