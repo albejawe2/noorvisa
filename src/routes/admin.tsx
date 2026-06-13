@@ -134,6 +134,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     { id: "documents", label: "الملفات", icon: Upload },
     { id: "payments", label: "المدفوعات", icon: Wallet },
     { id: "tasks", label: "المهام", icon: ListChecks },
+    { id: "reports", label: "التقارير", icon: BarChart3 },
     { id: "settings", label: "الإعدادات", icon: Settings },
   ];
 
