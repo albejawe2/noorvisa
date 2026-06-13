@@ -189,6 +189,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
           {tab==="documents" && <Documents/>}
           {tab==="payments" && <Payments/>}
           {tab==="tasks" && <Tasks/>}
+          {tab==="reports" && <Reports/>}
           {tab==="settings" && <SettingsTab/>}
         </div>
       </main>
