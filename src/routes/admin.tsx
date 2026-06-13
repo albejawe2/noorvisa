@@ -4,8 +4,9 @@ import { useEffect, useMemo, useState, useRef } from "react";
 import {
   LayoutDashboard, FileText, Settings, LogOut, Plus, Search, Trash2, Edit3,
   Users, CheckCircle2, Clock, XCircle, DollarSign, Menu, X, Lock, Eye, EyeOff,
-  Upload, ScanLine, Loader2, Download, Calendar, Wallet, ListChecks,
+  Upload, ScanLine, Loader2, Download, Calendar, Wallet, ListChecks, BarChart3,
 } from "lucide-react";
+import Reports from "@/components/admin/Reports";
 import {
   isAuthed, login, signup, logout, getUsername, changeCredentials,
   listApps, upsertApp, deleteApp, newId,
