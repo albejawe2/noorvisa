@@ -23,7 +23,7 @@ export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
-type Tab = "overview" | "applications" | "customers" | "documents" | "payments" | "tasks" | "settings";
+type Tab = "overview" | "applications" | "customers" | "documents" | "payments" | "tasks" | "reports" | "settings";
 
 const STATUS_LABEL: Record<AppStatus, string> = {
   new: "جديد", in_review: "قيد المراجعة", approved: "موافق عليه", issued: "صادر", rejected: "مرفوض",
