@@ -211,3 +211,17 @@ div[data-lovable-badge],
   position: absolute !important;
   left: -9999px !important;
 }
+/* Dark mode tokens for admin */
+.dark {
+  color-scheme: dark;
+}
+.dark body {
+  background: #1a0f08;
+  color: #f7f1e6;
+}
+
+@media print {
+  .no-print, nav, aside, header { display: none !important; }
+  body { background: white !important; color: black !important; }
+  .print-only { display: block !important; }
+}

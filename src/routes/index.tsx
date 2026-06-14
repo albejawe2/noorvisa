@@ -12,7 +12,7 @@ import { Testimonials } from "@/components/Testimonials";
 import { FAQ } from "@/components/FAQ";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
-import { WhatsAppFab } from "@/components/WhatsAppFab";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -70,7 +70,6 @@ function NoorVisaPage() {
           <CTA />
         </main>
         <Footer />
-        <WhatsAppFab />
       </div>
     </LanguageProvider>
   );

@@ -20,7 +20,6 @@ export async function signup(username: string, password: string): Promise<{ ok: 
     options: { emailRedirectTo: typeof window !== "undefined" ? `${window.location.origin}/admin` : undefined },
   });
   if (error) return { ok: false, error: error.message };
-  // محاولة تسجيل دخول مباشرة (في حال كانت تأكيدات البريد معطلة)
   await supabase.auth.signInWithPassword({ email, password });
   return { ok: true };
 }
@@ -32,6 +31,10 @@ export async function isAuthed(): Promise<boolean> {
 export async function getUsername(): Promise<string> {
   const { data } = await supabase.auth.getUser();
   return data.user?.email ? emailToUsername(data.user.email) : "admin";
+}
+export async function getUserId(): Promise<string | null> {
+  const { data } = await supabase.auth.getUser();
+  return data.user?.id ?? null;
 }
 export async function changeCredentials(opts: {
   currentPassword: string; newUsername?: string; newPassword?: string;
@@ -64,6 +67,9 @@ export type VisaApp = {
   decision_date?: string | null; travel_date?: string | null;
   passport_no?: string | null; nationality?: string | null;
   notes?: string | null; created_at: string;
+  track_code?: string | null;
+  paddle_transaction_id?: string | null;
+  paddle_checkout_url?: string | null;
 };
 export type Customer = {
   id: string; full_name: string; phone?: string | null; email?: string | null;
@@ -84,6 +90,26 @@ export type Payment = {
 export type Task = {
   id: string; app_id?: string | null; title: string; description?: string | null;
   due_date?: string | null; done: boolean; created_at: string;
+};
+export type Template = {
+  id: string; name: string; country: string; visa_type: string;
+  default_price: number; currency: string; checklist: string[];
+  notes?: string | null; created_at: string;
+};
+export type Invoice = {
+  id: string; number: string; app_id?: string | null; customer_id?: string | null;
+  issued_at: string; due_at?: string | null;
+  subtotal: number; tax: number; total: number; currency: string;
+  status: string; items: { description: string; qty: number; price: number }[];
+  notes?: string | null; created_at: string;
+};
+export type Notification = {
+  id: string; user_id?: string | null; title: string; body?: string | null;
+  kind: string; link?: string | null; read: boolean; created_at: string;
+};
+export type Activity = {
+  id: string; actor?: string | null; entity_type: string; entity_id?: string | null;
+  action: string; meta?: Record<string, unknown> | null; created_at: string;
 };
 
 export const newId = () =>
@@ -187,7 +213,6 @@ export async function listPayments(appId?: string): Promise<Payment[]> {
 }
 export async function addPayment(p: Omit<Payment, "id"> & { id?: string }) {
   const { error } = await supabase.from("payments").insert({ ...p, id: p.id ?? newId() } as never);
-  // تحديث المدفوع في الطلب
   const all = await listPayments(p.app_id);
   const total = all.reduce((s, x) => s + Number(x.amount || 0), 0);
   await supabase.from("visa_apps").update({ paid: total } as never).eq("id", p.app_id);
@@ -211,3 +236,70 @@ export async function upsertTask(t: Partial<Task> & { id: string }) {
   return { ok: !error, error: error?.message };
 }
 export async function deleteTask(id: string) { await supabase.from("tasks").delete().eq("id", id); }
+
+/* ---------------- Templates ---------------- */
+export async function listTemplates(): Promise<Template[]> {
+  const { data, error } = await supabase.from("templates").select("*").order("name");
+  if (error) { console.error(error); return []; }
+  return ((data as unknown) as Template[]).map(t => ({ ...t, checklist: Array.isArray(t.checklist) ? t.checklist : [] }));
+}
+export async function upsertTemplate(t: Partial<Template> & { id?: string }) {
+  const row = { ...t, id: t.id ?? newId() };
+  const { error } = await supabase.from("templates").upsert(row as never);
+  return { ok: !error, error: error?.message };
+}
+export async function deleteTemplate(id: string) { await supabase.from("templates").delete().eq("id", id); }
+
+/* ---------------- Invoices ---------------- */
+export async function listInvoices(): Promise<Invoice[]> {
+  const { data, error } = await supabase.from("invoices").select("*").order("issued_at", { ascending: false });
+  if (error) { console.error(error); return []; }
+  return (data as unknown) as Invoice[];
+}
+export async function upsertInvoice(inv: Partial<Invoice> & { id?: string }) {
+  const row = { ...inv, id: inv.id ?? newId() };
+  const { data, error } = await supabase.from("invoices").upsert(row as never).select().single();
+  return { ok: !error, error: error?.message, data: (data as unknown) as Invoice | null };
+}
+export async function deleteInvoice(id: string) { await supabase.from("invoices").delete().eq("id", id); }
+
+/* ---------------- Notifications ---------------- */
+export async function listNotifications(limit = 30): Promise<Notification[]> {
+  const uid = await getUserId();
+  if (!uid) return [];
+  const { data, error } = await supabase.from("notifications").select("*")
+    .or(`user_id.eq.${uid},user_id.is.null`).order("created_at", { ascending: false }).limit(limit);
+  if (error) { console.error(error); return []; }
+  return (data as unknown) as Notification[];
+}
+export async function markNotificationRead(id: string) {
+  await supabase.from("notifications").update({ read: true } as never).eq("id", id);
+}
+export async function markAllRead() {
+  const uid = await getUserId();
+  if (!uid) return;
+  await supabase.from("notifications").update({ read: true } as never).or(`user_id.eq.${uid},user_id.is.null`).eq("read", false);
+}
+export async function addNotification(n: Partial<Notification>) {
+  await supabase.from("notifications").insert({ id: newId(), ...n } as never);
+}
+
+/* ---------------- Activity ---------------- */
+export async function listActivity(limit = 100): Promise<Activity[]> {
+  const { data, error } = await supabase.from("activity_log").select("*").order("created_at", { ascending: false }).limit(limit);
+  if (error) { console.error(error); return []; }
+  return (data as unknown) as Activity[];
+}
+
+/* ---------------- Roles ---------------- */
+export type AppRole = "admin" | "staff" | "viewer";
+export async function listStaff(): Promise<{ user_id: string; role: AppRole; email?: string }[]> {
+  const { data, error } = await supabase.from("user_roles").select("user_id, role");
+  if (error) return [];
+  return data as { user_id: string; role: AppRole }[];
+}
+export async function myRole(): Promise<AppRole | null> {
+  const uid = await getUserId(); if (!uid) return null;
+  const { data } = await supabase.from("user_roles").select("role").eq("user_id", uid).order("role").limit(1).single();
+  return (data?.role as AppRole) ?? null;
+}
