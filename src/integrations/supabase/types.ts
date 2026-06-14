@@ -149,6 +149,108 @@ export type Database = {
           },
         ]
       }
+      invoices: {
+        Row: {
+          app_id: string | null
+          created_at: string
+          currency: string
+          customer_id: string | null
+          due_at: string | null
+          id: string
+          issued_at: string
+          items: Json
+          notes: string | null
+          number: string
+          status: string
+          subtotal: number
+          tax: number
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          app_id?: string | null
+          created_at?: string
+          currency?: string
+          customer_id?: string | null
+          due_at?: string | null
+          id?: string
+          issued_at?: string
+          items?: Json
+          notes?: string | null
+          number?: string
+          status?: string
+          subtotal?: number
+          tax?: number
+          total?: number
+          updated_at?: string
+        }
+        Update: {
+          app_id?: string | null
+          created_at?: string
+          currency?: string
+          customer_id?: string | null
+          due_at?: string | null
+          id?: string
+          issued_at?: string
+          items?: Json
+          notes?: string | null
+          number?: string
+          status?: string
+          subtotal?: number
+          tax?: number
+          total?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "visa_apps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          kind: string
+          link: string | null
+          read: boolean
+          title: string
+          user_id: string | null
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          link?: string | null
+          read?: boolean
+          title: string
+          user_id?: string | null
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          link?: string | null
+          read?: boolean
+          title?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           amount: number
@@ -240,6 +342,45 @@ export type Database = {
           },
         ]
       }
+      templates: {
+        Row: {
+          checklist: Json
+          country: string
+          created_at: string
+          currency: string
+          default_price: number
+          id: string
+          name: string
+          notes: string | null
+          updated_at: string
+          visa_type: string
+        }
+        Insert: {
+          checklist?: Json
+          country: string
+          created_at?: string
+          currency?: string
+          default_price?: number
+          id?: string
+          name: string
+          notes?: string | null
+          updated_at?: string
+          visa_type: string
+        }
+        Update: {
+          checklist?: Json
+          country?: string
+          created_at?: string
+          currency?: string
+          default_price?: number
+          id?: string
+          name?: string
+          notes?: string | null
+          updated_at?: string
+          visa_type?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -275,12 +416,15 @@ export type Database = {
           id: string
           nationality: string | null
           notes: string | null
+          paddle_checkout_url: string | null
+          paddle_transaction_id: string | null
           paid: number
           passport_no: string | null
           phone: string
           price: number
           status: string
           submission_date: string | null
+          track_code: string | null
           travel_date: string | null
           updated_at: string
           visa_type: string
@@ -298,12 +442,15 @@ export type Database = {
           id?: string
           nationality?: string | null
           notes?: string | null
+          paddle_checkout_url?: string | null
+          paddle_transaction_id?: string | null
           paid?: number
           passport_no?: string | null
           phone: string
           price?: number
           status?: string
           submission_date?: string | null
+          track_code?: string | null
           travel_date?: string | null
           updated_at?: string
           visa_type: string
@@ -321,12 +468,15 @@ export type Database = {
           id?: string
           nationality?: string | null
           notes?: string | null
+          paddle_checkout_url?: string | null
+          paddle_transaction_id?: string | null
           paid?: number
           passport_no?: string | null
           phone?: string
           price?: number
           status?: string
           submission_date?: string | null
+          track_code?: string | null
           travel_date?: string | null
           updated_at?: string
           visa_type?: string
@@ -354,6 +504,21 @@ export type Database = {
         Returns: boolean
       }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      lookup_app_by_track_code: {
+        Args: { _code: string }
+        Returns: {
+          appointment_date: string
+          country: string
+          created_at: string
+          decision_date: string
+          full_name: string
+          status: string
+          submission_date: string
+          track_code: string
+          travel_date: string
+          visa_type: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "staff"
