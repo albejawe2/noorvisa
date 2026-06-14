@@ -9,9 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TrackIndexRouteImport } from './routes/track.index'
+import { Route as TrackCodeRouteImport } from './routes/track.$code'
+import { Route as ApiPublicRunRemindersRouteImport } from './routes/api/public/run-reminders'
+import { Route as ApiPublicPaddleWebhookRouteImport } from './routes/api/public/paddle-webhook'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -22,35 +32,104 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TrackIndexRoute = TrackIndexRouteImport.update({
+  id: '/track/',
+  path: '/track/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrackCodeRoute = TrackCodeRouteImport.update({
+  id: '/track/$code',
+  path: '/track/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicRunRemindersRoute = ApiPublicRunRemindersRouteImport.update({
+  id: '/api/public/run-reminders',
+  path: '/api/public/run-reminders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPaddleWebhookRoute = ApiPublicPaddleWebhookRouteImport.update({
+  id: '/api/public/paddle-webhook',
+  path: '/api/public/paddle-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/track/$code': typeof TrackCodeRoute
+  '/track/': typeof TrackIndexRoute
+  '/api/public/paddle-webhook': typeof ApiPublicPaddleWebhookRoute
+  '/api/public/run-reminders': typeof ApiPublicRunRemindersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/track/$code': typeof TrackCodeRoute
+  '/track': typeof TrackIndexRoute
+  '/api/public/paddle-webhook': typeof ApiPublicPaddleWebhookRoute
+  '/api/public/run-reminders': typeof ApiPublicRunRemindersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/track/$code': typeof TrackCodeRoute
+  '/track/': typeof TrackIndexRoute
+  '/api/public/paddle-webhook': typeof ApiPublicPaddleWebhookRoute
+  '/api/public/run-reminders': typeof ApiPublicRunRemindersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/sitemap.xml'
+    | '/track/$code'
+    | '/track/'
+    | '/api/public/paddle-webhook'
+    | '/api/public/run-reminders'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin'
-  id: '__root__' | '/' | '/admin'
+  to:
+    | '/'
+    | '/admin'
+    | '/sitemap.xml'
+    | '/track/$code'
+    | '/track'
+    | '/api/public/paddle-webhook'
+    | '/api/public/run-reminders'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/sitemap.xml'
+    | '/track/$code'
+    | '/track/'
+    | '/api/public/paddle-webhook'
+    | '/api/public/run-reminders'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TrackCodeRoute: typeof TrackCodeRoute
+  TrackIndexRoute: typeof TrackIndexRoute
+  ApiPublicPaddleWebhookRoute: typeof ApiPublicPaddleWebhookRoute
+  ApiPublicRunRemindersRoute: typeof ApiPublicRunRemindersRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin': {
       id: '/admin'
       path: '/admin'
@@ -65,12 +144,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/track/': {
+      id: '/track/'
+      path: '/track'
+      fullPath: '/track/'
+      preLoaderRoute: typeof TrackIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/track/$code': {
+      id: '/track/$code'
+      path: '/track/$code'
+      fullPath: '/track/$code'
+      preLoaderRoute: typeof TrackCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/run-reminders': {
+      id: '/api/public/run-reminders'
+      path: '/api/public/run-reminders'
+      fullPath: '/api/public/run-reminders'
+      preLoaderRoute: typeof ApiPublicRunRemindersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/paddle-webhook': {
+      id: '/api/public/paddle-webhook'
+      path: '/api/public/paddle-webhook'
+      fullPath: '/api/public/paddle-webhook'
+      preLoaderRoute: typeof ApiPublicPaddleWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TrackCodeRoute: TrackCodeRoute,
+  TrackIndexRoute: TrackIndexRoute,
+  ApiPublicPaddleWebhookRoute: ApiPublicPaddleWebhookRoute,
+  ApiPublicRunRemindersRoute: ApiPublicRunRemindersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

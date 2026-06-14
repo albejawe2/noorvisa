@@ -241,7 +241,7 @@ export async function deleteTask(id: string) { await supabase.from("tasks").dele
 export async function listTemplates(): Promise<Template[]> {
   const { data, error } = await supabase.from("templates").select("*").order("name");
   if (error) { console.error(error); return []; }
-  return (data as Template[]).map(t => ({ ...t, checklist: Array.isArray(t.checklist) ? t.checklist : [] }));
+  return ((data as unknown) as Template[]).map(t => ({ ...t, checklist: Array.isArray(t.checklist) ? t.checklist : [] }));
 }
 export async function upsertTemplate(t: Partial<Template> & { id?: string }) {
   const row = { ...t, id: t.id ?? newId() };
@@ -254,12 +254,12 @@ export async function deleteTemplate(id: string) { await supabase.from("template
 export async function listInvoices(): Promise<Invoice[]> {
   const { data, error } = await supabase.from("invoices").select("*").order("issued_at", { ascending: false });
   if (error) { console.error(error); return []; }
-  return data as Invoice[];
+  return (data as unknown) as Invoice[];
 }
 export async function upsertInvoice(inv: Partial<Invoice> & { id?: string }) {
   const row = { ...inv, id: inv.id ?? newId() };
   const { data, error } = await supabase.from("invoices").upsert(row as never).select().single();
-  return { ok: !error, error: error?.message, data: data as Invoice | null };
+  return { ok: !error, error: error?.message, data: (data as unknown) as Invoice | null };
 }
 export async function deleteInvoice(id: string) { await supabase.from("invoices").delete().eq("id", id); }
 
@@ -270,7 +270,7 @@ export async function listNotifications(limit = 30): Promise<Notification[]> {
   const { data, error } = await supabase.from("notifications").select("*")
     .or(`user_id.eq.${uid},user_id.is.null`).order("created_at", { ascending: false }).limit(limit);
   if (error) { console.error(error); return []; }
-  return data as Notification[];
+  return (data as unknown) as Notification[];
 }
 export async function markNotificationRead(id: string) {
   await supabase.from("notifications").update({ read: true } as never).eq("id", id);
@@ -288,7 +288,7 @@ export async function addNotification(n: Partial<Notification>) {
 export async function listActivity(limit = 100): Promise<Activity[]> {
   const { data, error } = await supabase.from("activity_log").select("*").order("created_at", { ascending: false }).limit(limit);
   if (error) { console.error(error); return []; }
-  return data as Activity[];
+  return (data as unknown) as Activity[];
 }
 
 /* ---------------- Roles ---------------- */
