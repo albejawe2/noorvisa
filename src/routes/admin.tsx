@@ -145,18 +145,6 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     { id: "documents", label: "الملفات", icon: Upload },
     { id: "payments", label: "المدفوعات", icon: Wallet },
     { id: "tasks", label: "المهام", icon: ListChecks },
-    { id: "reports", label: "التقارير", icon: BarChart3 },
-    { id: "settings", label: "الإعدادات", icon: Settings },
-  ];
-
-  async function handleLogout() { await logout(); onLogout(); }
-  const tabs: { id: Tab; label: string; icon: typeof LayoutDashboard }[] = [
-    { id: "overview", label: "نظرة عامة", icon: LayoutDashboard },
-    { id: "applications", label: "الطلبات", icon: FileText },
-    { id: "customers", label: "العملاء", icon: Users },
-    { id: "documents", label: "الملفات", icon: Upload },
-    { id: "payments", label: "المدفوعات", icon: Wallet },
-    { id: "tasks", label: "المهام", icon: ListChecks },
     { id: "calendar", label: "التقويم", icon: Calendar },
     { id: "templates", label: "القوالب", icon: FileStack },
     { id: "invoices", label: "الفواتير", icon: Receipt },
