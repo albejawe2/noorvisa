@@ -150,10 +150,27 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
   ];
 
   async function handleLogout() { await logout(); onLogout(); }
+  const tabs: { id: Tab; label: string; icon: typeof LayoutDashboard }[] = [
+    { id: "overview", label: "نظرة عامة", icon: LayoutDashboard },
+    { id: "applications", label: "الطلبات", icon: FileText },
+    { id: "customers", label: "العملاء", icon: Users },
+    { id: "documents", label: "الملفات", icon: Upload },
+    { id: "payments", label: "المدفوعات", icon: Wallet },
+    { id: "tasks", label: "المهام", icon: ListChecks },
+    { id: "calendar", label: "التقويم", icon: Calendar },
+    { id: "templates", label: "القوالب", icon: FileStack },
+    { id: "invoices", label: "الفواتير", icon: Receipt },
+    { id: "reports", label: "التقارير", icon: BarChart3 },
+    { id: "activity", label: "سجل النشاط", icon: Activity },
+    { id: "settings", label: "الإعدادات", icon: Settings },
+  ];
+
+  async function handleLogout() { await logout(); onLogout(); }
   function go(t: Tab) { setTab(t); setSidebar(false); }
 
   return (
     <div className="min-h-screen flex" style={{ background:"#f5efe4" }}>
+      <CommandPalette onNavigate={(t) => go(t as Tab)} />
       {sidebar && <div onClick={()=>setSidebar(false)} className="fixed inset-0 bg-black/50 z-40 lg:hidden"/>}
       <aside className={`fixed lg:sticky top-0 rtl:right-0 ltr:left-0 h-screen w-72 z-50 flex flex-col transition-transform
         ${sidebar?"translate-x-0":"rtl:translate-x-full ltr:-translate-x-full"} lg:translate-x-0`}
@@ -188,28 +205,35 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
       </aside>
 
       <main className="flex-1 min-w-0">
-        <header className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-[#2a1a0f]/10 px-4 sm:px-6 py-3 flex items-center justify-between">
-          <button onClick={()=>setSidebar(true)} className="lg:hidden p-2 -m-2"><Menu className="size-6 text-[#2a1a0f]"/></button>
-          <div className="text-lg sm:text-xl font-bold text-[#2a1a0f]">{tabs.find(t=>t.id===tab)?.label}</div>
+        <header className="sticky top-0 z-30 bg-white/90 dark:bg-[#1a0f08]/90 backdrop-blur border-b border-[#2a1a0f]/10 dark:border-[#d4af37]/10 px-4 sm:px-6 py-3 flex items-center justify-between gap-2">
+          <button onClick={()=>setSidebar(true)} className="lg:hidden p-2 -m-2"><Menu className="size-6 text-[#2a1a0f] dark:text-[#f7f1e6]"/></button>
+          <div className="text-lg sm:text-xl font-bold text-[#2a1a0f] dark:text-[#f7f1e6] flex-1 truncate">{tabs.find(t=>t.id===tab)?.label}</div>
+          <DarkModeToggle/>
+          <NotificationsBell/>
           <div className="size-10 rounded-full grid place-items-center font-bold text-[#1a0f08]" style={{background:"linear-gradient(135deg,#d4af37,#c9a04a)"}}>{username.charAt(0).toUpperCase()}</div>
         </header>
         <div className="p-4 sm:p-6">
-          {tab==="overview" && <Overview/>}
+          {tab==="overview" && <DashboardRich/>}
           {tab==="applications" && <Applications/>}
           {tab==="customers" && <Customers/>}
           {tab==="documents" && <Documents/>}
           {tab==="payments" && <Payments/>}
           {tab==="tasks" && <Tasks/>}
+          {tab==="calendar" && <CalendarView/>}
+          {tab==="templates" && <Templates/>}
+          {tab==="invoices" && <Invoices/>}
           {tab==="reports" && <Reports/>}
+          {tab==="activity" && <ActivityLog/>}
           {tab==="settings" && <SettingsTab/>}
         </div>
+        <AiAssistant/>
       </main>
     </div>
   );
 }
 
-/* ================= OVERVIEW ================= */
-function Overview() {
+/* ================= OVERVIEW (legacy fallback kept) ================= */
+function _OverviewLegacy() {
   const [apps, setApps] = useState<VisaApp[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
   useEffect(()=>{ listApps().then(setApps); listTasks().then(setTasks); },[]);
