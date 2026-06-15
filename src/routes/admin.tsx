@@ -5,8 +5,18 @@ import {
   LayoutDashboard, FileText, Settings, LogOut, Plus, Search, Trash2, Edit3,
   Users, CheckCircle2, Clock, XCircle, DollarSign, Menu, X, Lock, Eye, EyeOff,
   Upload, ScanLine, Loader2, Download, Calendar, Wallet, ListChecks, BarChart3,
+  FileStack, Receipt, Activity, CreditCard,
 } from "lucide-react";
 import Reports from "@/components/admin/Reports";
+import DashboardRich from "@/components/admin/Dashboard";
+import Templates from "@/components/admin/Templates";
+import Invoices from "@/components/admin/Invoices";
+import CalendarView from "@/components/admin/CalendarView";
+import ActivityLog from "@/components/admin/ActivityLog";
+import AiAssistant from "@/components/admin/AiAssistant";
+import NotificationsBell from "@/components/admin/NotificationsBell";
+import CommandPalette from "@/components/admin/CommandPalette";
+import DarkModeToggle from "@/components/admin/DarkModeToggle";
 import {
   isAuthed, login, signup, logout, getUsername, changeCredentials,
   listApps, upsertApp, deleteApp, newId,
@@ -14,6 +24,7 @@ import {
   listDocuments, uploadDocument, getDocumentUrl, deleteDocument, fileToDataUrl,
   listPayments, addPayment, deletePayment,
   listTasks, upsertTask, deleteTask,
+  getSetting, setSetting, type PaddleSettings,
   type VisaApp, type AppStatus, type Customer, type DocRow, type Payment, type Task,
 } from "@/lib/admin-store";
 import { extractPassport } from "@/lib/ocr.functions";
@@ -23,7 +34,7 @@ export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
-type Tab = "overview" | "applications" | "customers" | "documents" | "payments" | "tasks" | "reports" | "settings";
+type Tab = "overview" | "applications" | "customers" | "documents" | "payments" | "tasks" | "calendar" | "templates" | "invoices" | "reports" | "activity" | "settings";
 
 const STATUS_LABEL: Record<AppStatus, string> = {
   new: "جديد", in_review: "قيد المراجعة", approved: "موافق عليه", issued: "صادر", rejected: "مرفوض",
