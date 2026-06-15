@@ -724,6 +724,15 @@ function Tasks() {
 
 /* ================= SETTINGS ================= */
 function SettingsTab() {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <CredentialsCard/>
+      <PaddleSettingsCard/>
+    </div>
+  );
+}
+
+function CredentialsCard() {
   const [cur, setCur] = useState(""); const [nu, setNu] = useState(""); const [np, setNp] = useState("");
   const [busy, setBusy] = useState(false); const [msg, setMsg] = useState<{ok:boolean;t:string}|null>(null);
   async function save() {
@@ -734,8 +743,8 @@ function SettingsTab() {
     if (r.ok) { setCur(""); setNu(""); setNp(""); }
   }
   return (
-    <div className="max-w-xl bg-white rounded-2xl p-6 shadow-sm space-y-3">
-      <h3 className="font-bold text-[#2a1a0f] mb-2">تغيير بيانات الدخول</h3>
+    <div className="bg-white rounded-2xl p-6 shadow-sm space-y-3">
+      <h3 className="font-bold text-[#2a1a0f] mb-2 flex items-center gap-2"><Lock className="size-5 text-[#d4af37]"/>بيانات الدخول</h3>
       <label className="block"><span className="text-xs font-bold block mb-1.5">كلمة السر الحالية *</span>
         <input type="password" value={cur} onChange={e=>setCur(e.target.value)} className="w-full bg-[#f5efe4] border rounded-xl px-3 py-2.5 text-sm"/></label>
       <label className="block"><span className="text-xs font-bold block mb-1.5">اسم مستخدم جديد (اختياري)</span>
@@ -747,3 +756,88 @@ function SettingsTab() {
     </div>
   );
 }
+
+function PaddleSettingsCard() {
+  const [s, setS] = useState<PaddleSettings>({ enabled:false, environment:"sandbox", vendor_id:"", api_key:"", webhook_secret:"", price_id:"" });
+  const [loaded, setLoaded] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<{ok:boolean;t:string}|null>(null);
+  const [showSecrets, setShowSecrets] = useState(false);
+
+  useEffect(() => {
+    getSetting<PaddleSettings>("paddle").then(v => { if (v) setS({ ...s, ...v }); setLoaded(true); });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function save() {
+    setBusy(true); setMsg(null);
+    const r = await setSetting("paddle", s as unknown as Record<string, unknown>);
+    setBusy(false);
+    setMsg(r.ok ? { ok:true, t:"تم حفظ إعدادات Paddle" } : { ok:false, t:r.error||"خطأ" });
+  }
+
+  const webhookUrl = typeof window !== "undefined" ? `${window.location.origin}/api/public/paddle-webhook` : "";
+
+  if (!loaded) return <div className="bg-white rounded-2xl p-6 shadow-sm text-center text-sm text-[#2a1a0f]/50">جاري التحميل...</div>;
+
+  return (
+    <div className="bg-white rounded-2xl p-6 shadow-sm space-y-3">
+      <div className="flex items-center justify-between">
+        <h3 className="font-bold text-[#2a1a0f] flex items-center gap-2"><CreditCard className="size-5 text-[#d4af37]"/>إعدادات الدفع (Paddle)</h3>
+        <label className="flex items-center gap-2 text-xs font-bold cursor-pointer">
+          <input type="checkbox" checked={!!s.enabled} onChange={e=>setS({...s, enabled:e.target.checked})} className="size-5 accent-[#d4af37]"/>
+          {s.enabled ? "مُفعَّل" : "مُعطَّل"}
+        </label>
+      </div>
+
+      <p className="text-xs text-[#2a1a0f]/60">
+        احصل على المفاتيح من لوحة Paddle: Developer Tools → Authentication / Notifications.
+        يبقى عنوان Webhook التالي مطلوب لإضافته في Paddle:
+      </p>
+      <div className="bg-[#f5efe4] border border-[#d4af37]/30 rounded-xl px-3 py-2.5 text-xs font-mono break-all flex items-center justify-between gap-2">
+        <span>{webhookUrl}</span>
+        <button type="button" onClick={()=>navigator.clipboard.writeText(webhookUrl)} className="shrink-0 px-2 py-1 rounded-md bg-[#d4af37] text-[#1a0f08] text-[10px] font-bold">نسخ</button>
+      </div>
+
+      <label className="block">
+        <span className="text-xs font-bold block mb-1.5">البيئة</span>
+        <select value={s.environment} onChange={e=>setS({...s, environment: e.target.value as "sandbox"|"production"})}
+          className="w-full bg-[#f5efe4] border rounded-xl px-3 py-2.5 text-sm">
+          <option value="sandbox">تجريبية (Sandbox)</option>
+          <option value="production">الإنتاج (Production)</option>
+        </select>
+      </label>
+
+      <label className="block">
+        <span className="text-xs font-bold block mb-1.5">Vendor ID</span>
+        <input value={s.vendor_id||""} onChange={e=>setS({...s, vendor_id:e.target.value})} placeholder="123456" className="w-full bg-[#f5efe4] border rounded-xl px-3 py-2.5 text-sm"/>
+      </label>
+
+      <label className="block">
+        <span className="text-xs font-bold block mb-1.5">API Key</span>
+        <input type={showSecrets?"text":"password"} value={s.api_key||""} onChange={e=>setS({...s, api_key:e.target.value})} placeholder="pdl_live_xxx..." className="w-full bg-[#f5efe4] border rounded-xl px-3 py-2.5 text-sm font-mono"/>
+      </label>
+
+      <label className="block">
+        <span className="text-xs font-bold block mb-1.5">Webhook Secret</span>
+        <input type={showSecrets?"text":"password"} value={s.webhook_secret||""} onChange={e=>setS({...s, webhook_secret:e.target.value})} placeholder="pdl_ntfset_xxx..." className="w-full bg-[#f5efe4] border rounded-xl px-3 py-2.5 text-sm font-mono"/>
+      </label>
+
+      <label className="block">
+        <span className="text-xs font-bold block mb-1.5">Price ID (اختياري — الخدمة الافتراضية)</span>
+        <input value={s.price_id||""} onChange={e=>setS({...s, price_id:e.target.value})} placeholder="pri_xxx..." className="w-full bg-[#f5efe4] border rounded-xl px-3 py-2.5 text-sm font-mono"/>
+      </label>
+
+      <button type="button" onClick={()=>setShowSecrets(v=>!v)} className="text-xs text-[#d4af37] font-bold flex items-center gap-1">
+        {showSecrets ? <><EyeOff className="size-3"/>إخفاء المفاتيح</> : <><Eye className="size-3"/>إظهار المفاتيح</>}
+      </button>
+
+      {msg && <div className={`p-3 rounded-xl text-sm ${msg.ok?"bg-emerald-50 text-emerald-700":"bg-rose-50 text-rose-700"}`}>{msg.t}</div>}
+
+      <button onClick={save} disabled={busy} className="w-full py-3 rounded-xl font-bold text-[#1a0f08] disabled:opacity-60" style={{background:"linear-gradient(135deg,#d4af37,#c9a04a)"}}>
+        {busy?"...":"حفظ إعدادات Paddle"}
+      </button>
+    </div>
+  );
+}
+
