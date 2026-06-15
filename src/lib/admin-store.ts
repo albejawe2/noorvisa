@@ -303,3 +303,24 @@ export async function myRole(): Promise<AppRole | null> {
   const { data } = await supabase.from("user_roles").select("role").eq("user_id", uid).order("role").limit(1).single();
   return (data?.role as AppRole) ?? null;
 }
+
+/* ---------------- App Settings (admin-only) ---------------- */
+export async function getSetting<T = Record<string, unknown>>(key: string): Promise<T | null> {
+  const { data, error } = await supabase.from("app_settings").select("value").eq("key", key).maybeSingle();
+  if (error || !data) return null;
+  return (data.value as unknown) as T;
+}
+export async function setSetting(key: string, value: Record<string, unknown>): Promise<{ ok: boolean; error?: string }> {
+  const uid = await getUserId();
+  const { error } = await supabase.from("app_settings").upsert({ key, value, updated_by: uid } as never);
+  return { ok: !error, error: error?.message };
+}
+
+export type PaddleSettings = {
+  enabled?: boolean;
+  environment?: "sandbox" | "production";
+  vendor_id?: string;
+  api_key?: string;
+  webhook_secret?: string;
+  price_id?: string;
+};
