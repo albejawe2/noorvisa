@@ -5,8 +5,18 @@ import {
   LayoutDashboard, FileText, Settings, LogOut, Plus, Search, Trash2, Edit3,
   Users, CheckCircle2, Clock, XCircle, DollarSign, Menu, X, Lock, Eye, EyeOff,
   Upload, ScanLine, Loader2, Download, Calendar, Wallet, ListChecks, BarChart3,
+  FileStack, Receipt, Activity, CreditCard,
 } from "lucide-react";
 import Reports from "@/components/admin/Reports";
+import DashboardRich from "@/components/admin/Dashboard";
+import Templates from "@/components/admin/Templates";
+import Invoices from "@/components/admin/Invoices";
+import CalendarView from "@/components/admin/CalendarView";
+import ActivityLog from "@/components/admin/ActivityLog";
+import AiAssistant from "@/components/admin/AiAssistant";
+import NotificationsBell from "@/components/admin/NotificationsBell";
+import CommandPalette from "@/components/admin/CommandPalette";
+import DarkModeToggle from "@/components/admin/DarkModeToggle";
 import {
   isAuthed, login, signup, logout, getUsername, changeCredentials,
   listApps, upsertApp, deleteApp, newId,
@@ -14,6 +24,7 @@ import {
   listDocuments, uploadDocument, getDocumentUrl, deleteDocument, fileToDataUrl,
   listPayments, addPayment, deletePayment,
   listTasks, upsertTask, deleteTask,
+  getSetting, setSetting, type PaddleSettings,
   type VisaApp, type AppStatus, type Customer, type DocRow, type Payment, type Task,
 } from "@/lib/admin-store";
 import { extractPassport } from "@/lib/ocr.functions";
@@ -23,7 +34,7 @@ export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
-type Tab = "overview" | "applications" | "customers" | "documents" | "payments" | "tasks" | "reports" | "settings";
+type Tab = "overview" | "applications" | "customers" | "documents" | "payments" | "tasks" | "calendar" | "templates" | "invoices" | "reports" | "activity" | "settings";
 
 const STATUS_LABEL: Record<AppStatus, string> = {
   new: "جديد", in_review: "قيد المراجعة", approved: "موافق عليه", issued: "صادر", rejected: "مرفوض",
@@ -134,7 +145,11 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     { id: "documents", label: "الملفات", icon: Upload },
     { id: "payments", label: "المدفوعات", icon: Wallet },
     { id: "tasks", label: "المهام", icon: ListChecks },
+    { id: "calendar", label: "التقويم", icon: Calendar },
+    { id: "templates", label: "القوالب", icon: FileStack },
+    { id: "invoices", label: "الفواتير", icon: Receipt },
     { id: "reports", label: "التقارير", icon: BarChart3 },
+    { id: "activity", label: "سجل النشاط", icon: Activity },
     { id: "settings", label: "الإعدادات", icon: Settings },
   ];
 
@@ -143,6 +158,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
 
   return (
     <div className="min-h-screen flex" style={{ background:"#f5efe4" }}>
+      <CommandPalette onNavigate={(t) => go(t as Tab)} />
       {sidebar && <div onClick={()=>setSidebar(false)} className="fixed inset-0 bg-black/50 z-40 lg:hidden"/>}
       <aside className={`fixed lg:sticky top-0 rtl:right-0 ltr:left-0 h-screen w-72 z-50 flex flex-col transition-transform
         ${sidebar?"translate-x-0":"rtl:translate-x-full ltr:-translate-x-full"} lg:translate-x-0`}
@@ -177,28 +193,35 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
       </aside>
 
       <main className="flex-1 min-w-0">
-        <header className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-[#2a1a0f]/10 px-4 sm:px-6 py-3 flex items-center justify-between">
-          <button onClick={()=>setSidebar(true)} className="lg:hidden p-2 -m-2"><Menu className="size-6 text-[#2a1a0f]"/></button>
-          <div className="text-lg sm:text-xl font-bold text-[#2a1a0f]">{tabs.find(t=>t.id===tab)?.label}</div>
+        <header className="sticky top-0 z-30 bg-white/90 dark:bg-[#1a0f08]/90 backdrop-blur border-b border-[#2a1a0f]/10 dark:border-[#d4af37]/10 px-4 sm:px-6 py-3 flex items-center justify-between gap-2">
+          <button onClick={()=>setSidebar(true)} className="lg:hidden p-2 -m-2"><Menu className="size-6 text-[#2a1a0f] dark:text-[#f7f1e6]"/></button>
+          <div className="text-lg sm:text-xl font-bold text-[#2a1a0f] dark:text-[#f7f1e6] flex-1 truncate">{tabs.find(t=>t.id===tab)?.label}</div>
+          <DarkModeToggle/>
+          <NotificationsBell/>
           <div className="size-10 rounded-full grid place-items-center font-bold text-[#1a0f08]" style={{background:"linear-gradient(135deg,#d4af37,#c9a04a)"}}>{username.charAt(0).toUpperCase()}</div>
         </header>
         <div className="p-4 sm:p-6">
-          {tab==="overview" && <Overview/>}
+          {tab==="overview" && <DashboardRich/>}
           {tab==="applications" && <Applications/>}
           {tab==="customers" && <Customers/>}
           {tab==="documents" && <Documents/>}
           {tab==="payments" && <Payments/>}
           {tab==="tasks" && <Tasks/>}
+          {tab==="calendar" && <CalendarView/>}
+          {tab==="templates" && <Templates/>}
+          {tab==="invoices" && <Invoices/>}
           {tab==="reports" && <Reports/>}
+          {tab==="activity" && <ActivityLog/>}
           {tab==="settings" && <SettingsTab/>}
         </div>
+        <AiAssistant/>
       </main>
     </div>
   );
 }
 
-/* ================= OVERVIEW ================= */
-function Overview() {
+/* ================= OVERVIEW (legacy fallback kept) ================= */
+function _OverviewLegacy() {
   const [apps, setApps] = useState<VisaApp[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
   useEffect(()=>{ listApps().then(setApps); listTasks().then(setTasks); },[]);
@@ -701,6 +724,15 @@ function Tasks() {
 
 /* ================= SETTINGS ================= */
 function SettingsTab() {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <CredentialsCard/>
+      <PaddleSettingsCard/>
+    </div>
+  );
+}
+
+function CredentialsCard() {
   const [cur, setCur] = useState(""); const [nu, setNu] = useState(""); const [np, setNp] = useState("");
   const [busy, setBusy] = useState(false); const [msg, setMsg] = useState<{ok:boolean;t:string}|null>(null);
   async function save() {
@@ -711,8 +743,8 @@ function SettingsTab() {
     if (r.ok) { setCur(""); setNu(""); setNp(""); }
   }
   return (
-    <div className="max-w-xl bg-white rounded-2xl p-6 shadow-sm space-y-3">
-      <h3 className="font-bold text-[#2a1a0f] mb-2">تغيير بيانات الدخول</h3>
+    <div className="bg-white rounded-2xl p-6 shadow-sm space-y-3">
+      <h3 className="font-bold text-[#2a1a0f] mb-2 flex items-center gap-2"><Lock className="size-5 text-[#d4af37]"/>بيانات الدخول</h3>
       <label className="block"><span className="text-xs font-bold block mb-1.5">كلمة السر الحالية *</span>
         <input type="password" value={cur} onChange={e=>setCur(e.target.value)} className="w-full bg-[#f5efe4] border rounded-xl px-3 py-2.5 text-sm"/></label>
       <label className="block"><span className="text-xs font-bold block mb-1.5">اسم مستخدم جديد (اختياري)</span>
@@ -724,3 +756,88 @@ function SettingsTab() {
     </div>
   );
 }
+
+function PaddleSettingsCard() {
+  const [s, setS] = useState<PaddleSettings>({ enabled:false, environment:"sandbox", vendor_id:"", api_key:"", webhook_secret:"", price_id:"" });
+  const [loaded, setLoaded] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<{ok:boolean;t:string}|null>(null);
+  const [showSecrets, setShowSecrets] = useState(false);
+
+  useEffect(() => {
+    getSetting<PaddleSettings>("paddle").then(v => { if (v) setS({ ...s, ...v }); setLoaded(true); });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function save() {
+    setBusy(true); setMsg(null);
+    const r = await setSetting("paddle", s as unknown as Record<string, unknown>);
+    setBusy(false);
+    setMsg(r.ok ? { ok:true, t:"تم حفظ إعدادات Paddle" } : { ok:false, t:r.error||"خطأ" });
+  }
+
+  const webhookUrl = typeof window !== "undefined" ? `${window.location.origin}/api/public/paddle-webhook` : "";
+
+  if (!loaded) return <div className="bg-white rounded-2xl p-6 shadow-sm text-center text-sm text-[#2a1a0f]/50">جاري التحميل...</div>;
+
+  return (
+    <div className="bg-white rounded-2xl p-6 shadow-sm space-y-3">
+      <div className="flex items-center justify-between">
+        <h3 className="font-bold text-[#2a1a0f] flex items-center gap-2"><CreditCard className="size-5 text-[#d4af37]"/>إعدادات الدفع (Paddle)</h3>
+        <label className="flex items-center gap-2 text-xs font-bold cursor-pointer">
+          <input type="checkbox" checked={!!s.enabled} onChange={e=>setS({...s, enabled:e.target.checked})} className="size-5 accent-[#d4af37]"/>
+          {s.enabled ? "مُفعَّل" : "مُعطَّل"}
+        </label>
+      </div>
+
+      <p className="text-xs text-[#2a1a0f]/60">
+        احصل على المفاتيح من لوحة Paddle: Developer Tools → Authentication / Notifications.
+        يبقى عنوان Webhook التالي مطلوب لإضافته في Paddle:
+      </p>
+      <div className="bg-[#f5efe4] border border-[#d4af37]/30 rounded-xl px-3 py-2.5 text-xs font-mono break-all flex items-center justify-between gap-2">
+        <span>{webhookUrl}</span>
+        <button type="button" onClick={()=>navigator.clipboard.writeText(webhookUrl)} className="shrink-0 px-2 py-1 rounded-md bg-[#d4af37] text-[#1a0f08] text-[10px] font-bold">نسخ</button>
+      </div>
+
+      <label className="block">
+        <span className="text-xs font-bold block mb-1.5">البيئة</span>
+        <select value={s.environment} onChange={e=>setS({...s, environment: e.target.value as "sandbox"|"production"})}
+          className="w-full bg-[#f5efe4] border rounded-xl px-3 py-2.5 text-sm">
+          <option value="sandbox">تجريبية (Sandbox)</option>
+          <option value="production">الإنتاج (Production)</option>
+        </select>
+      </label>
+
+      <label className="block">
+        <span className="text-xs font-bold block mb-1.5">Vendor ID</span>
+        <input value={s.vendor_id||""} onChange={e=>setS({...s, vendor_id:e.target.value})} placeholder="123456" className="w-full bg-[#f5efe4] border rounded-xl px-3 py-2.5 text-sm"/>
+      </label>
+
+      <label className="block">
+        <span className="text-xs font-bold block mb-1.5">API Key</span>
+        <input type={showSecrets?"text":"password"} value={s.api_key||""} onChange={e=>setS({...s, api_key:e.target.value})} placeholder="pdl_live_xxx..." className="w-full bg-[#f5efe4] border rounded-xl px-3 py-2.5 text-sm font-mono"/>
+      </label>
+
+      <label className="block">
+        <span className="text-xs font-bold block mb-1.5">Webhook Secret</span>
+        <input type={showSecrets?"text":"password"} value={s.webhook_secret||""} onChange={e=>setS({...s, webhook_secret:e.target.value})} placeholder="pdl_ntfset_xxx..." className="w-full bg-[#f5efe4] border rounded-xl px-3 py-2.5 text-sm font-mono"/>
+      </label>
+
+      <label className="block">
+        <span className="text-xs font-bold block mb-1.5">Price ID (اختياري — الخدمة الافتراضية)</span>
+        <input value={s.price_id||""} onChange={e=>setS({...s, price_id:e.target.value})} placeholder="pri_xxx..." className="w-full bg-[#f5efe4] border rounded-xl px-3 py-2.5 text-sm font-mono"/>
+      </label>
+
+      <button type="button" onClick={()=>setShowSecrets(v=>!v)} className="text-xs text-[#d4af37] font-bold flex items-center gap-1">
+        {showSecrets ? <><EyeOff className="size-3"/>إخفاء المفاتيح</> : <><Eye className="size-3"/>إظهار المفاتيح</>}
+      </button>
+
+      {msg && <div className={`p-3 rounded-xl text-sm ${msg.ok?"bg-emerald-50 text-emerald-700":"bg-rose-50 text-rose-700"}`}>{msg.t}</div>}
+
+      <button onClick={save} disabled={busy} className="w-full py-3 rounded-xl font-bold text-[#1a0f08] disabled:opacity-60" style={{background:"linear-gradient(135deg,#d4af37,#c9a04a)"}}>
+        {busy?"...":"حفظ إعدادات Paddle"}
+      </button>
+    </div>
+  );
+}
+
