@@ -61,6 +61,12 @@ export function Nav() {
           <div className="flex items-center gap-2">
             <LangToggle />
             <a
+              href="/track"
+              className="hidden sm:inline-flex items-center px-3 py-2 text-xs sm:text-sm font-bold rounded-full border border-ink/10 hover:bg-ink/5 transition"
+            >
+              {(t.nav as { track?: string }).track ?? "تتبع طلبك"}
+            </a>
+            <a
               href={CONTACT}
               className="hidden sm:inline-flex bg-ink text-ivory hover:bg-sunset hover:text-white px-4 py-2 text-xs sm:text-sm font-bold rounded-full transition-all active:scale-95"
             >
