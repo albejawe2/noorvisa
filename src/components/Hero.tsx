@@ -1,11 +1,11 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { MessageCircle, Sparkles, ArrowDown } from "lucide-react";
+import { Phone, Sparkles, ArrowDown } from "lucide-react";
 import portrait from "../assets/noor-portrait-cutout.png";
 import { useLang } from "./LanguageProvider";
 
-const WHATSAPP = "https://wa.me/962782727279";
+const CONTACT = "tel:+962782727279";
 
 export function Hero() {
   const { t, lang } = useLang();
@@ -123,12 +123,10 @@ export function Hero() {
             className="mt-7 sm:mt-9 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center md:justify-start"
           >
             <a
-              href={WHATSAPP}
-              target="_blank"
-              rel="noopener"
+              href={CONTACT}
               className="group bg-sunset text-white px-7 py-4 rounded-full font-bold text-base sm:text-lg inline-flex items-center justify-center gap-2.5 shadow-[var(--shadow-soft)] hover:scale-[1.03] active:scale-95 transition-transform"
             >
-              <MessageCircle className="size-5" />
+              <Phone className="size-5" />
               {t.hero.ctaWhatsapp}
             </a>
             <a

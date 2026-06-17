@@ -102,7 +102,7 @@ const TXT = {
     result: { free: "Visa-free", eta: "Visa on arrival", evisa: "e-Visa", required: "Visa required", covid: "Special rules", refused: "Entry not allowed", unknown: "No data" },
     detail: { free: "You can enter directly with no prior visa.", eta: "You'll get a visa stamped on arrival.", evisa: "Apply for an e-Visa before travel.", required: "Apply for a visa at the embassy before travel.", covid: "Special health or entry rules apply.", refused: "Travel restricted for this passport.", unknown: "No data found for this route." },
     days: "days visa-free",
-    consult: "Book a WhatsApp consultation",
+    consult: "Book a consultation call",
   },
 };
 
@@ -324,7 +324,7 @@ export function WorldVisaMap() {
                     </div>
                   )}
 
-                  <a href="https://wa.me/962782727279" target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center justify-center gap-2 bg-ink text-ivory py-3 rounded-2xl text-sm font-bold hover:scale-[1.01] active:scale-95 transition-transform">
+                  <a href="tel:+962782727279" className="mt-5 inline-flex items-center justify-center gap-2 bg-ink text-ivory py-3 rounded-2xl text-sm font-bold hover:scale-[1.01] active:scale-95 transition-transform">
                     {t.consult}
                   </a>
                 </motion.div>

@@ -44,7 +44,7 @@ export const Route = createFileRoute("/")({
           areaServed: "Worldwide",
           serviceType: ["Tourist Visa", "Student Visa", "Medical Visa", "Work Visa", "Certified Translation", "Travel Insurance", "Immigration Consultation"],
           aggregateRating: { "@type": "AggregateRating", ratingValue: "5", reviewCount: "600" },
-          sameAs: ["https://wa.me/962782727279"],
+          sameAs: [],
         }),
       },
     ],
