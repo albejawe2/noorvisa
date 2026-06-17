@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLang } from "./LanguageProvider";
 import { LangToggle } from "./LangToggle";
 
-const WHATSAPP = "https://wa.me/962782727279";
+const CONTACT = "tel:+962782727279";
 
 export function Nav() {
   const { t } = useLang();
@@ -61,9 +61,7 @@ export function Nav() {
           <div className="flex items-center gap-2">
             <LangToggle />
             <a
-              href={WHATSAPP}
-              target="_blank"
-              rel="noopener"
+              href={CONTACT}
               className="hidden sm:inline-flex bg-ink text-ivory hover:bg-sunset hover:text-white px-4 py-2 text-xs sm:text-sm font-bold rounded-full transition-all active:scale-95"
             >
               {t.nav.cta}
@@ -114,9 +112,7 @@ export function Nav() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.45 }}
-                  href={WHATSAPP}
-                  target="_blank"
-                  rel="noopener"
+                  href={CONTACT}
                   onClick={() => setOpen(false)}
                   className="mt-8 bg-sunset text-white text-center px-6 py-4 text-lg font-bold rounded-full shadow-[var(--shadow-soft)]"
                 >

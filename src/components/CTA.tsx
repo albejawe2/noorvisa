@@ -1,9 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
-import { MessageCircle } from "lucide-react";
+import { Phone } from "lucide-react";
 import { useLang } from "./LanguageProvider";
 
-const WHATSAPP = "https://wa.me/962782727279";
+const CONTACT = "tel:+962782727279";
 
 export function CTA() {
   const { t } = useLang();
@@ -46,12 +46,10 @@ export function CTA() {
             className="mt-8 sm:mt-10 flex flex-col items-center gap-4"
           >
             <a
-              href={WHATSAPP}
-              target="_blank"
-              rel="noopener"
+              href={CONTACT}
               className="bg-white text-ink px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg inline-flex items-center gap-2.5 hover:scale-[1.04] active:scale-95 transition-transform shadow-xl"
             >
-              <MessageCircle className="size-5" />
+              <Phone className="size-5" />
               {t.cta.button}
             </a>
             <span className="text-sm text-white/80">{t.cta.note}</span>

@@ -1,0 +1,12 @@
+{
+  "name": "NoorVisa",
+  "short_name": "NoorVisa",
+  "description": "خدمات الفيزا والاستشارات",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf6f0",
+  "theme_color": "#faf6f0",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "any", "type": "image/x-icon" }
+  ]
+}
