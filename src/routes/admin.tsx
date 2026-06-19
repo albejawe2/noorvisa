@@ -160,8 +160,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     <div className="min-h-screen flex" style={{ background:"#f5efe4" }}>
       <CommandPalette onNavigate={(t) => go(t as Tab)} />
       {sidebar && <div onClick={()=>setSidebar(false)} className="fixed inset-0 bg-black/50 z-40 lg:hidden"/>}
-      <aside className={`fixed lg:sticky top-0 rtl:right-0 ltr:left-0 h-screen w-72 z-50 flex flex-col transition-transform
-        ${sidebar?"translate-x-0":"rtl:translate-x-full ltr:-translate-x-full"} lg:translate-x-0`}
+      <aside className={`fixed lg:sticky top-0 rtl:right-0 ltr:left-0 h-screen w-72 z-50 flex flex-col transition-transform lg:!translate-x-0
+        ${sidebar?"translate-x-0":"rtl:translate-x-full ltr:-translate-x-full"}`}
         style={{background:"linear-gradient(180deg,#2a1a0f,#1a0f08)"}}>
         <div className="p-6 border-b border-[#d4af37]/20 flex items-center justify-between">
           <div>
