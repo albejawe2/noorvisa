@@ -27,7 +27,7 @@ function parseVisaCell(raw: string): { status: VisaStatus; days?: number } {
 let countriesP: Promise<Country[]> | null = null;
 function getCountries() {
   if (!countriesP) {
-    countriesP = fetch("https://restcountries.com/v3.1/all?fields=cca2,name,translations,flag")
+    countriesP = fetch("/api/public/countries?fields=cca2,name,translations,flag")
       .then((r) => r.json())
       .then((a: Country[]) => a.sort((x, y) => x.name.common.localeCompare(y.name.common)))
       .catch((e) => { countriesP = null; throw e; });
