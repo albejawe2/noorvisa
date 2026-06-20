@@ -16,6 +16,7 @@ import { Route as TrackIndexRouteImport } from './routes/track.index'
 import { Route as TrackCodeRouteImport } from './routes/track.$code'
 import { Route as ApiPublicRunRemindersRouteImport } from './routes/api/public/run-reminders'
 import { Route as ApiPublicPaddleWebhookRouteImport } from './routes/api/public/paddle-webhook'
+import { Route as ApiPublicCountriesRouteImport } from './routes/api/public/countries'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -52,6 +53,11 @@ const ApiPublicPaddleWebhookRoute = ApiPublicPaddleWebhookRouteImport.update({
   path: '/api/public/paddle-webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCountriesRoute = ApiPublicCountriesRouteImport.update({
+  id: '/api/public/countries',
+  path: '/api/public/countries',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track/$code': typeof TrackCodeRoute
   '/track/': typeof TrackIndexRoute
+  '/api/public/countries': typeof ApiPublicCountriesRoute
   '/api/public/paddle-webhook': typeof ApiPublicPaddleWebhookRoute
   '/api/public/run-reminders': typeof ApiPublicRunRemindersRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track/$code': typeof TrackCodeRoute
   '/track': typeof TrackIndexRoute
+  '/api/public/countries': typeof ApiPublicCountriesRoute
   '/api/public/paddle-webhook': typeof ApiPublicPaddleWebhookRoute
   '/api/public/run-reminders': typeof ApiPublicRunRemindersRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/track/$code': typeof TrackCodeRoute
   '/track/': typeof TrackIndexRoute
+  '/api/public/countries': typeof ApiPublicCountriesRoute
   '/api/public/paddle-webhook': typeof ApiPublicPaddleWebhookRoute
   '/api/public/run-reminders': typeof ApiPublicRunRemindersRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/track/$code'
     | '/track/'
+    | '/api/public/countries'
     | '/api/public/paddle-webhook'
     | '/api/public/run-reminders'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/track/$code'
     | '/track'
+    | '/api/public/countries'
     | '/api/public/paddle-webhook'
     | '/api/public/run-reminders'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/track/$code'
     | '/track/'
+    | '/api/public/countries'
     | '/api/public/paddle-webhook'
     | '/api/public/run-reminders'
   fileRoutesById: FileRoutesById
@@ -117,6 +129,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrackCodeRoute: typeof TrackCodeRoute
   TrackIndexRoute: typeof TrackIndexRoute
+  ApiPublicCountriesRoute: typeof ApiPublicCountriesRoute
   ApiPublicPaddleWebhookRoute: typeof ApiPublicPaddleWebhookRoute
   ApiPublicRunRemindersRoute: typeof ApiPublicRunRemindersRoute
 }
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPaddleWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/countries': {
+      id: '/api/public/countries'
+      path: '/api/public/countries'
+      fullPath: '/api/public/countries'
+      preLoaderRoute: typeof ApiPublicCountriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -181,19 +201,10 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrackCodeRoute: TrackCodeRoute,
   TrackIndexRoute: TrackIndexRoute,
+  ApiPublicCountriesRoute: ApiPublicCountriesRoute,
   ApiPublicPaddleWebhookRoute: ApiPublicPaddleWebhookRoute,
   ApiPublicRunRemindersRoute: ApiPublicRunRemindersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
