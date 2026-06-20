@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import countries from "world-countries";
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -8,37 +9,32 @@ const CORS = {
   "Cache-Control": "public, max-age=86400, s-maxage=86400",
 };
 
+// Pick only requested fields to keep payload small (matches restcountries v3.1/all shape).
+function pick(obj: Record<string, unknown>, fields: string[]) {
+  const out: Record<string, unknown> = {};
+  for (const f of fields) {
+    if (f in obj) out[f] = obj[f];
+  }
+  return out;
+}
+
 export const Route = createFileRoute("/api/public/countries")({
   server: {
     handlers: {
       OPTIONS: async () => new Response(null, { status: 204, headers: CORS }),
       GET: async ({ request }) => {
         const url = new URL(request.url);
-        const fields =
-          url.searchParams.get("fields") ||
-          "cca2,name,translations,flag";
-        try {
-          const r = await fetch(
-            `https://restcountries.com/v3.1/all?fields=${encodeURIComponent(fields)}`,
-            { headers: { Accept: "application/json" } },
-          );
-          if (!r.ok) {
-            return new Response(JSON.stringify({ error: "upstream", status: r.status }), {
-              status: 502,
-              headers: { "Content-Type": "application/json", ...CORS },
-            });
-          }
-          const body = await r.text();
-          return new Response(body, {
-            status: 200,
-            headers: { "Content-Type": "application/json", ...CORS },
-          });
-        } catch (e) {
-          return new Response(JSON.stringify({ error: String(e) }), {
-            status: 500,
-            headers: { "Content-Type": "application/json", ...CORS },
-          });
-        }
+        const fieldsParam = url.searchParams.get("fields");
+        const fields = fieldsParam
+          ? fieldsParam.split(",").map((s) => s.trim()).filter(Boolean)
+          : ["cca2", "name", "translations", "flag"];
+
+        const data = (countries as unknown as Record<string, unknown>[]).map((c) => pick(c, fields));
+
+        return new Response(JSON.stringify(data), {
+          status: 200,
+          headers: { "Content-Type": "application/json", ...CORS },
+        });
       },
     },
   },
